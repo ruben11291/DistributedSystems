@@ -1,8 +1,12 @@
 
-#include <iostream>
-#include <fstream>
+/*
+ * Loader.cpp
+ *
+ *  Created on: 31/10/2013
+ *      Author: ruben
+ */
+
 #include <Loader.hpp>
-#include <vector>
 
 using namespace std;
 
@@ -10,33 +14,31 @@ Loader::Loader(){
 
 }
 
-Loader::Loader(char * fileA, char * fileB,char* fileC,int& np):can(true){
+Loader::Loader(char * fileA, char * fileB,char* fileC,int& np){
   ifstream fA(fileA),fB(fileB),fC(fileC);
   if(!fA.is_open()) throw -1;
   if(!fB.is_open()) throw -2;
   if(!fC.is_open()) throw -3;
-  int filA,colA,filB,colB;
+  int filA,filB;
   fA>>filA;
-  fA>>colA;
   fB>>filB;
-  fB>>colB;
   fC>>np;
-  if(colA != filB) //don`t multiply arrays
-    can = false;
-  
-  A = Matrix(filA,colA);
-  B = Matrix(filB,colB);
+  cout << sqrt(np)<< " ";
+  cout <<double( (int)sqrt(np))<<" ";
+  assert(filA == filB);
+  assert(sqrt(np) == double( (int)sqrt(np)));
+  assert(np > 1 and (int)sqrt(np) > 1);
+  assert((int)filA % (int)sqrt(np) == 0  );// if order of data is div. by the order of array of processors.
 
-  for(int i=0;i<A.fil;i++){
-    for(int j=0;j<A.col;j++){
-      fA>>A.data[i][j];
-    }
+  A = Matrix(filA);
+  B = Matrix(filB);
+
+  for(int i=0;i<A.ncol*A.ncol;i++){
+      fA>>A.data[i];
   }
   
-  for(int i=0;i<B.fil;i++){
-    for(int j=0;j<B.col;j++){
-      fB>>B.data[i][j];
-    }
+  for(int i=0;i<B.ncol*B.ncol;i++){
+      fB>>B.data[i];
   }
 
   fA.close();
@@ -51,14 +53,5 @@ return this->A;
 Matrix 
 Loader::getB() const {
   return this->B;
-}
-bool 
-Loader::can_mult() const{
-  return this->can;
-}
-void
-Loader::enviar(vector <Processor> p){
-  for(vector<Processor>::iterator it = p.begin();it!=p.end(); it++)
-;
 }
 

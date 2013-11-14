@@ -7,15 +7,15 @@ OBJ = ./obj
 HEAD=./include
 BIN=./bin
 RES=./resources
-M1=matriz1.m
-M2=matriz2.m
+M1=matrizA.m
+M2=matrizB.m
 N=nproc.m
 EXEC=multcannon
 
 
 # Link ----------------------------------
-Main: $(OBJ)/Main.o $(OBJ)/Loader.o $(OBJ)/Processor.o $(OBJ)/Modify.o $(OBJ)/Matrix.o
-	$(CC) $(CFLAGS) $(LIBS) $(INCLUDE) $(OBJ)/Loader.o $(OBJ)/Processor.o $(OBJ)/Modify.o $(OBJ)/Main.o $(OBJ)/Matrix.o -o $(BIN)/$(EXEC) 
+Main: $(OBJ)/Main.o $(OBJ)/Loader.o $(OBJ)/Processor.o $(OBJ)/Modify.o $(OBJ)/Matrix.o $(OBJ)/Dispatcher.o generate
+	$(CC) $(CFLAGS) $(LIBS) $(INCLUDE) $(OBJ)/Loader.o $(OBJ)/Processor.o $(OBJ)/Modify.o $(OBJ)/Main.o $(OBJ)/Matrix.o $(OBJ)/Dispatcher.o -o $(BIN)/$(EXEC) 
 
 
 # Compilation ---------------------------
@@ -31,6 +31,9 @@ $(OBJ)/Loader.o: $(SRC)/Loader.cpp
 $(OBJ)/Processor.o: $(SRC)/Processor.cpp
 	$(CC) $(CFLAGS) $(INCLUDE) -c $(SRC)/Processor.cpp -o $(OBJ)/Processor.o
 
+$(OBJ)/Dispatcher.o: $(SRC)/Dispatcher.cpp
+	$(CC) $(CFLAGS) $(INCLUDE) -c $(SRC)/Dispatcher.cpp -o $(OBJ)/Dispatcher.o
+
 $(OBJ)/Modify.o: $(SRC)/Modify.cpp
 	$(CC) $(CFLAGS) $(INCLUDE) -c $(SRC)/Modify.cpp -o $(OBJ)/Modify.o
 	
@@ -38,4 +41,9 @@ clean:
 	rm -f $(OBJ)/*.o $(SRC)/*~ ./include/*~ ./*~ $(BIN)/*
 execute:
 	./$(BIN)/$(EXEC) $(RES)/$(M1) $(RES)/$(M2) $(RES)/$(N)
+
+generate:
+	$(CC) $(SRC)/generate.cpp -o $(BIN)/generate
+gen: 
+	./$(BIN)/generate 36 36
 

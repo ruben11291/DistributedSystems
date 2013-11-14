@@ -6,14 +6,9 @@
 // Description :
 //============================================================================
 
-#include <iostream>
-#include <vector>
 #include <Loader.hpp>
-#include <fstream>
 #include <Modify.hpp>
-// #include <Dispatcher.hpp>
-
-int read_nproc(char *file);
+#include <Dispatcher.hpp>
 
 
 using namespace std;
@@ -25,7 +20,9 @@ int main(int argc,char**argv) {
 		return -1;
 	}
 	Loader loader;
-	int nproc;
+	int ord,nproc;
+
+
 	try{
 		 loader= Loader(argv[1],argv[2],argv[3],nproc);
 	}catch(int e){
@@ -39,23 +36,14 @@ int main(int argc,char**argv) {
 		}
 		return -1;
 	}
-	
-	// Dispatcher disp;
+	ord = (int)sqrt(nproc);//dimension matrix
 
-	if(!loader.can_mult()){
-		cout<<"Error with matrix dimension"<<endl;
-		return -1;
-	}
+	Dispatcher dispatcher(nproc);//create dispatcher for proccesors
+
+
 	Matrix A = loader.getA();
 	Matrix B = loader.getB();
-	if(A.fil%nproc != 0 or A.col%nproc != 0){
-		cout << "Error with matrix A dimension"<<endl<<"Must be mult of nproccessor"<<endl;
-		return -1;
-	}
-	if(B.fil % nproc != 0 or B.col % nproc !=0){
-		cout << "Error with matrix B dimension"<<endl<<"Must be mult of nproccessor"<<endl;
-		return -1;
-	}
+
 
 	cout << "MATRIX A"<<endl<<A.toString()<<endl;
 	cout << "MATRIX B"<<endl<<B.toString()<<endl;
@@ -63,28 +51,22 @@ int main(int argc,char**argv) {
 	Matrix R (A.multiply(B));
 	cout << "RESULT MATRIZ"<<endl<<R.toString()<<endl;
 
-	vector <Matrix> vA = Modify::mod(A,nproc);
-	std::vector<Matrix> vB = Modify::mod(B,nproc);
+	vector <Matrix> vA = Modify::split(A,ord);
+	std::vector<Matrix> vB = Modify::split(B,ord);
 
-	 cout << "A"<<endl;
-	 for (int i=0;i<vA.size();i++){
-		cout <<vA[i].toString();
-		if(i%nproc==0) cout<<endl;
-		else cout<<" ";
-	}
-	 cout<<" B" <<endl;
-	 for(int i=0;i<vB.size();i++)
-	 	cout<<vB[i].toString()<<endl;
-	
+
+	vA = Modify::displace_horizontal(vA,ord);
+	vB = Modify::displace_vertical(vB,ord);
+
+
+	 dispatcher.distr(vA,vB);
+	 dispatcher.run();
+	 std::vector<Matrix> res = dispatcher.getResult();
+	 cout <<" CANNON RESULT "<<endl;
+	 for(auto x:res){
+	 	cout << x.toString();
+	 }
 
 
 	return 0;
-}
-
-int read_nproc(char *file){
-	ifstream np(file);
-	int nproc;
-	np >>nproc;
-	np.close();
-	return nproc;
 }

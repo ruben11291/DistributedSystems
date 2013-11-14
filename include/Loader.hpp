@@ -5,21 +5,16 @@
  *      Author: ruben
  */
 
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <Processor.hpp>
+#include <Matrix.hpp>
+#include <cassert>
 #ifndef LOADER_HPP_
 #define LOADER_HPP_
 
-//============================================================================
-// Name        : Loader.cpp
-// Author      : Ruben Perez Pascual
-// Version     :
-// Copyright   : Your copyright notice
-// Description :
-//============================================================================
 
-#include <iostream>
-#include <vector>
-#include <Processor.hpp>
-#include <Matrix.hpp>
 
 using namespace std;
 
@@ -28,14 +23,11 @@ using namespace std;
  public:
   Matrix  getA() const;
   Matrix  getB() const;
-  void enviar(vector <Processor> p);
-  bool can_mult() const;
   Loader(char* A,char* B,char*C,int&);
   Loader();
 private:
   Matrix A;
   Matrix B;
-  bool can;
   };
 
 
