@@ -1,0 +1,12 @@
+# Configuration file (11/19/13 23:12:41.908)
+
+# Server configuration
+Ice.Admin.ServerId=Processor3
+Ice.Admin.Endpoints=tcp -h localhost
+Ice.ProgramName=Processor3
+# Object adapter ProcessorAdapter
+ProcessorAdapter.Endpoints=tcp
+ProcessorAdapter.AdapterId=Processor3.ProcessorAdapter
+# Server descriptor properties
+ProcessorAdapter.PublishedEndpoints=tcp -h localhost -p default
+Ice.Default.Locator=IceGrid/Locator:tcp -h localhost -p 4061
