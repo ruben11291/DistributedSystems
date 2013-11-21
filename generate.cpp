@@ -18,16 +18,14 @@ int main(int argc, char**argv){
 	fb << b <<endl; 
 
 	for ( int i = 0; i < a*a; i++){
-		fa << i<<" " ;
- 
-		if(i%a == 0 and i != 0) fa << endl;
-	}
+	  if(i%a == 0 and i != 0) fa << endl;	
+	  fa << i<<" " ;
+ 	}
 
 	for ( int j = b*b -1 ; j>= 0; j--){
-		fb << j <<" ";
-		if(j%b == 0 and j !=0 ) fb << endl;
-	
-	}
+	  if(j%b == 0 and j !=0 ) fb << endl;	
+	  fb << j <<" ";		
+   	}
 	fa << endl;
 	fb <<endl;
 	

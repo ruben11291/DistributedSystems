@@ -22,12 +22,14 @@ private:
   std::vector< ::Cannon::ProcessorPrx> processor;
 public:
 
-  Dispatch(int nproc,Ice::ObjectPrx & proxy);
+  Dispatch(int nproc, Ice::ObjectPrx & proxy, CollectorPrx & collector);
   ~Dispatch();
   void distr(const std::vector < ::Cannon::Matrix > & m, const std::vector< ::Cannon::Matrix > &mb);
   int getNproc();
   void  run();
   std::vector< ::Cannon::ProcessorPrx> getProcessor();
+  int getLeft(int n);
+  int getNorth(int n);
 };
 #endif
 

@@ -42,11 +42,14 @@ class MatrixClient: public Ice::Application{
     ord = (int)sqrt(nproc);//dimension matrix
 
     //Create query for get processors' proxies
+    // try{
      Ice::ObjectPrx proxy = communicator()->stringToProxy("IceGrid/Query");
+     Ice::ObjectPrx col = communicator()->stringToProxy("Collector");
+     CollectorPrx collector = CollectorPrx::checkedCast(col);
+     // }catch(){
+    // }
     
-
     
-    Dispatch dispatcher(nproc, proxy);//create dispatcher for proccesors
   
     Cannon::Matrix A (loader.getA());
     Cannon::Matrix B (loader.getB());
@@ -65,7 +68,8 @@ class MatrixClient: public Ice::Application{
     vA = Modify::displace_horizontal(vA,ord);
     vB = Modify::displace_vertical(vB,ord);
     
-    
+   
+     Dispatch dispatcher(nproc, proxy,collector);//create dispatcher for proccesors
     dispatcher.distr(vA,vB);
     dispatcher.run();
    

@@ -1,0 +1,59 @@
+CXXFLAGS=-g -I./header/. -I$(ICE_HOME)/include -std=c++11
+LDFLAGS=-L$(ICE_HOME)/lib
+LDLIBS = -lm -lIce -lFreeze -lIceUtil -lstdc++ -lpthread -lrt -lIceGrid -lGlacier2
+CC=g++
+SRC=src
+HEAD=header
+BIN=bin
+OBJ=obj
+
+all: $(BIN)/MatrixProcessor $(BIN)/MatrixClient $(BIN)/MatrixCollector $(BIN)/generate
+
+$(BIN)/MatrixProcessor: $(OBJ)/MatrixProcessor.o $(OBJ)/CannonI.o  $(OBJ)/Cannon.o $(OBJ)/Modify.o
+	$(CC) $(LDLIBS) $(LDFLAGS) $(CXXFLAGS) $? -o $@
+
+$(OBJ)/MatrixProcessor.o: $(SRC)/MatrixProcessor.cpp
+	$(CC) $(CXXFLAGS) $(LDLIBS) $(LDFLAGS)  -c $(SRC)/MatrixProcessor.cpp -o $(OBJ)/MatrixProcessor.o
+
+
+$(BIN)/MatrixClient: $(OBJ)/MatrixClient.o $(OBJ)/CannonI.o $(OBJ)/Cannon.o $(OBJ)/Loader.o $(OBJ)/Dispatch.o $(OBJ)/Modify.o 
+	$(CC) $(LDLIBS) $(LDFLAGS) $(CXXFLAGS) $? -o $@
+
+$(OBJ)/MatrixClient.o: $(SRC)/MatrixClient.cpp
+	g++ $(CXXFLAGS) $(LDLIBS) $(LDFLAGS) -c $(SRC)/MatrixClient.cpp -o $(OBJ)/MatrixClient.o
+
+$(BIN)/MatrixCollector: $(OBJ)/MatrixCollector.o $(OBJ)/CannonI.o $(OBJ)/Cannon.o $(OBJ)/Modify.o
+	$(CC) $(LDLIBS) $(LDFLAGS) $(CXXFLAGS) $? -o $@
+
+$(OBJ)/MatrixCollector.o: $(SRC)/MatrixCollector.cpp
+	g++ $(CXXFLAGS) $(LDLIBS) $(LDFLAGS)  -c $(SRC)/MatrixCollector.cpp -o $(OBJ)/MatrixCollector.o
+
+
+$(OBJ)/Loader.o: $(SRC)/Loader.cpp
+	g++ $(CXXFLAGS) -c $(SRC)/Loader.cpp -o $(OBJ)/Loader.o
+$(OBJ)/Dispatch.o: $(SRC)/Dispatch.cpp
+	g++ $(CXXFLAGS) -c  $(SRC)/Dispatch.cpp -o $(OBJ)/Dispatch.o
+$(OBJ)/CannonI.o: $(SRC)/CannonI.cpp
+	g++ $(CXXFLAGS) -c  $(SRC)/CannonI.cpp -o $(OBJ)/CannonI.o
+$(OBJ)/Cannon.o: $(SRC)/Cannon.cpp
+	g++ $(CXXFLAGS) -c $(SRC)/Cannon.cpp -o $(OBJ)/Cannon.o
+$(OBJ)/Modify.o: $(SRC)/Modify.cpp
+	g++ $(CXXFLAGS) -c  $(SRC)/Modify.cpp -o $(OBJ)/Modify.o
+
+
+$(BIN)/generate: $(SRC)/generate.cpp
+gen: 
+	./$(BIN)/generate 36 36
+
+
+clean:
+	$(RM) *~ *.o $(BIN)/* $(OBJ)/*
+	$(RM) *~ *.o 
+	$(RM) -rf db/*
+
+ejecuteClient:
+	./MatrixClient resources/matrizA.m resources/matrizB.m resources/nproc.m -n1
+ejecuteProcessor:
+	./MatrixProcessor
+ejecuteCollector:
+	./MatrixCollector

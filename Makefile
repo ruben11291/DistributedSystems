@@ -2,6 +2,8 @@ CXXFLAGS=-g -I. -I$(ICE_HOME)/include -std=c++11
 LDFLAGS=-L$(ICE_HOME)/lib
 
 all: MatrixProcessor MatrixClient MatrixCollector generate
+	mv *.o obj/ 
+	mv MatrixProcessor MatrixClient MatrixCollector generate bin/
 
 MatrixProcessor: LDLIBS=-lm -lIce -lFreeze -lIceUtil -lstdc++ -lpthread -lrt -lIceGrid -lGlacier2
 MatrixProcessor: MatrixProcessor.o CannonI.o  Cannon.o Modify.o
@@ -19,7 +21,7 @@ gen:
 
 clean:
 	$(RM) *~ *.o MatrixProcessor MatrixClient MatrixCollector generate
-	$(RM) *~ *.o 
+	$(RM) *~ *.o *.bz2
 	$(RM) -rf db/*
 
 ejecuteClient:
@@ -28,3 +30,6 @@ ejecuteProcessor:
 	./MatrixProcessor
 ejecuteCollector:
 	./MatrixCollector
+
+deploy:
+	icepatch2calc bin/.

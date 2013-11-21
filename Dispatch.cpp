@@ -5,29 +5,29 @@
 #include <cassert>
 
 
-Dispatch::Dispatch(int npro, Ice::ObjectPrx& proxy):nproc(npro){
-  // processor = std::vector< Cannon::ProcessorPrx > (nproc);
+Dispatch::Dispatch(int npro, Ice::ObjectPrx& proxy, CollectorPrx& collector):nproc(npro){
+  
   processor = std::vector < Cannon::ProcessorPrx > ();
+  
   IceGrid::QueryPrx query = IceGrid::QueryPrx::checkedCast(proxy);
    Ice::ObjectProxySeq seq;
 
-  //  string type = Cannon::Procesor::ice_staticId();
   seq = query->findAllObjectsByType("::Cannon::Processor");
  
  Cannon::ProcessorPrx pr;
- std::cout << "elemento"<<std::endl;
-  for(auto i:seq){
-    pr = Cannon::ProcessorPrx::checkedCast(i);
-    processor.push_back(pr);
-    std::cout << "elemento"<<std::endl;
-  }
-  //assert(npro == processor.size());
-  
-   // // for(int i=0;i<nproc;i++)
-   // //  processor[i] = Processor(i,nproc);
-  
-}
+ int size = seq.size();
+ for(auto i:seq){
+   std::cout << i <<std::endl;
+   pr = Cannon::ProcessorPrx::checkedCast(i);
+   processor.push_back(pr);
+ }
+ 
+ for(int i =0; i<size; i++){
+   processor[i]->init( (int)(i/(int)sqrt(nproc)) , (int)(i%(int)sqrt(nproc)) , processor[getLeft(i)],processor[getNorth(i)],(int)sqrt(nproc), collector);
+ }
 
+}
+ 
 Dispatch::~Dispatch(){
   
 }
@@ -39,13 +39,15 @@ void Dispatch::distr(const std::vector< ::Cannon::Matrix> & mA, const std::vecto
   // for(auto i:mB)
   // 	cout<<i.toString()<<endl;
   // cout.flush();
-  // for(int i = 0; i<mA.size();i++){
-  //   processor[i]->init((int)(i / (int)sqrt(nproc)), i % (int)sqrt(nproc), processor[] , processor[] , (int)sqrt(nproc) , 
-  // }
-  // for( int i= 0; i < nproc; i++){
-  //   processor[i].setA(mA[i]);
-  //   processor[i].setB(mB[i]);
-  // }
+  
+  Matrix A;
+  A.ncols = 5;
+  A.data = Cannon::DoubleSeq();
+ assert(nproc == mA.size());
+  for( int i= 0; i < nproc; i++){
+    Cannon::Matrix tmpA(mA[i]),tmpB(mB[i]);
+    processor[i]->injectMatrix(tmpA,tmpB,0);
+  }
 
 
   // for(int i = 0; i<nproc;i++){
@@ -91,4 +93,15 @@ int Dispatch::getNproc(){
 
 std::vector< ::Cannon::ProcessorPrx> Dispatch::getProcessor(){
 	 return processor;
+}
+
+int Dispatch::getLeft(int id){
+	if(id % (int)sqrt(nproc) == 0)
+		return (id + ((int)sqrt(nproc) - 1) );
+	else return (id - 1);
+}
+int Dispatch::getNorth(int id){
+	if(id < (int)sqrt(nproc) )
+		return (nproc + (id- (int)sqrt(nproc)));
+	else return (id-((int)sqrt(nproc)) % nproc ); 
 }

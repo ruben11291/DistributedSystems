@@ -1,4 +1,4 @@
-# Configuration file (11/19/13 23:12:43.105)
+# Configuration file (11/21/13 12:21:48.858)
 
 # Server configuration
 Ice.Admin.ServerId=Processor11
@@ -8,5 +8,5 @@ Ice.ProgramName=Processor11
 ProcessorAdapter.Endpoints=tcp
 ProcessorAdapter.AdapterId=Processor11.ProcessorAdapter
 # Server descriptor properties
-ProcessorAdapter.PublishedEndpoints=tcp -h localhost -p default
+Ice.StdOut=/home/ruben/Processor.out
 Ice.Default.Locator=IceGrid/Locator:tcp -h localhost -p 4061

@@ -1,9 +1,12 @@
-# Configuration file (11/19/13 23:12:41.903)
+# Configuration file (11/21/13 12:21:39.092)
 
 # Server configuration
 Ice.Admin.ServerId=MatrixCollector
 Ice.Admin.Endpoints=tcp -h localhost
 Ice.ProgramName=MatrixCollector
+# Object adapter CollectorAdapter
+CollectorAdapter.Endpoints=tcp
+CollectorAdapter.AdapterId=MatrixCollector.CollectorAdapter
 # Server descriptor properties
-Ice.StdOut=/home/ruben/DistributedSystem/data/nodo1/distrib/CannonApp/collector.txt
+Ice.StdOut=/home/ruben/collector.txt
 Ice.Default.Locator=IceGrid/Locator:tcp -h localhost -p 4061

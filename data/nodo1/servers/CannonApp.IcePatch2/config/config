@@ -1,4 +1,4 @@
-# Configuration file (11/19/13 23:12:41.901)
+# Configuration file (11/21/13 12:21:39.047)
 
 # Server configuration
 Ice.Admin.ServerId=CannonApp.IcePatch2
@@ -9,5 +9,5 @@ IcePatch2.Endpoints=default
 IcePatch2.AdapterId=CannonApp.IcePatch2.IcePatch2
 # Server descriptor properties
 IcePatch2.InstanceName=CannonApp.IcePatch2
-IcePatch2.Directory=/home/ruben/DistributedSystem/
+IcePatch2.Directory=/home/ruben/DistributedSystem/bin
 Ice.Default.Locator=IceGrid/Locator:tcp -h localhost -p 4061

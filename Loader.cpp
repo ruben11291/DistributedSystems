@@ -26,8 +26,6 @@ Loader::Loader(char * fileA, char * fileB,char* fileC,int& np){
   fA>>filA;
   fB>>filB;
   fC>>np;
-  cout << sqrt(np)<< " ";
-  cout <<double( (int)sqrt(np))<<" ";
   assert(filA == filB);
   assert(sqrt(np) == double( (int)sqrt(np)));
   assert(np > 1 and (int)sqrt(np) > 1);
