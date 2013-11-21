@@ -33,16 +33,8 @@ Dispatch::~Dispatch(){
 }
 
 void Dispatch::distr(const std::vector< ::Cannon::Matrix> & mA, const std::vector< ::Cannon::Matrix> &mB){
-  // for(auto i:mA)
-  // 	cout << i.toString()<<endl;
-  // cout.flush();
-  // for(auto i:mB)
-  // 	cout<<i.toString()<<endl;
-  // cout.flush();
-  
-  Matrix A;
-  A.ncols = 5;
-  A.data = Cannon::DoubleSeq();
+
+ 
  assert(nproc == mA.size());
   for( int i= 0; i < nproc; i++){
     Cannon::Matrix tmpA(mA[i]),tmpB(mB[i]);
@@ -50,39 +42,30 @@ void Dispatch::distr(const std::vector< ::Cannon::Matrix> & mA, const std::vecto
   }
 
 
-  // for(int i = 0; i<nproc;i++){
-  // 	cout<<" I "<<i<<" Processor "<<processor[i].getId()<< endl;
-  // 	for(int j =0;j<processor[i].getA().data.size();j++)
-  // 		cout<<processor[i].getA().data[j]<<" ";
-  // 	cout<<endl;
-  // 	for(int j =0;j<processor[i].getB().data.size();j++)
-  // 		cout<<processor[i].getB().data[j]<<" ";
-  // 	cout<<endl;
-  // }
   
   
 }
 
 void Dispatch::run(){
-  // std::vector< ::Cannon::Matrix> auxA,auxB;
+  std::vector< ::Cannon::Matrix> auxA,auxB;
   
-  // int l = (int)sqrt(nproc);
-  // for(int i = 0; i < l-1; i++){
-  //   auxA = std::vector<Matrix>();
-  //   auxB = std::vector<Matrix>();
-  //   for( int j = 0; j < nproc; j++){
-  //     processor[j].run();
-  //     auxA.push_back(processor[j].getA());
-  //     auxB.push_back(processor[j].getB());
-  //   }
-  // 	  for( int j = 0; j < nproc; j++){
-  // 	    processor[processor[j].getLeft()].setA(auxA[j]);
-  // 	    processor[processor[j].getNorth()].setB(auxB[j]);
-  // 	  }
+  int l = (int)sqrt(nproc);
+  for(int i = 0; i < l-1; i++){
+    auxA = std::vector< ::Cannon::Matrix>();
+    auxB = std::vector< ::Cannon::Matrix>();
+    for( int j = 0; j < nproc; j++){
+      processor[j].run();
+      auxA.push_back(processor[j].getA());
+      auxB.push_back(processor[j].getB());
+    }
+  	  for( int j = 0; j < nproc; j++){
+  	    processor[processor[j].getLeft()].setA(auxA[j]);
+  	    processor[processor[j].getNorth()].setB(auxB[j]);
+  	  }
 	  
-  // }
-  // for( int j = 0; j < nproc; j++)
-  //   processor[j].run();
+  }
+  for( int j = 0; j < nproc; j++)
+    processor[j].run();
 }
 
 	

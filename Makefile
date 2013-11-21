@@ -20,9 +20,7 @@ gen:
 
 
 clean:
-	$(RM) *~ *.o MatrixProcessor MatrixClient MatrixCollector generate
-	$(RM) *~ *.o *.bz2
-	$(RM) -rf db/*
+	$(RM) -rf db/* bin/* obj/* data/nodo1/* data/nodo2/* data/nodo3/*
 
 ejecuteClient:
 	./MatrixClient resources/matrizA.m resources/matrizB.m resources/nproc.m -n1

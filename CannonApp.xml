@@ -96,7 +96,7 @@
          <server id="Processor${id}" activation="on-demand" exe="./MatrixProcessor" pwd="${application.distrib}">
             <option>${id}</option>
             <properties>
-               <property name="Ice.StdOut" value="/home/ruben/Processor.out"/>
+               <property name="Ice.StdOut" value="/tmp/Processor${id}.out"/>
             </properties>
             <adapter name="ProcessorAdapter" endpoints="tcp" id="${server}.ProcessorAdapter">
                <object identity="Processor${id}" type="::Cannon::Processor"/>
@@ -107,7 +107,7 @@
          <server-instance template="IcePatch2" directory="/home/ruben/DistributedSystem/bin"/>
          <server id="MatrixCollector" activation="on-demand" exe="./MatrixCollector" pwd="${application.distrib}">
             <properties>
-               <property name="Ice.StdOut" value="/home/ruben/collector.txt"/>
+               <property name="Ice.StdOut" value="/tmp/collector.txt"/>
             </properties>
             <adapter name="CollectorAdapter" endpoints="tcp" id="${server}.CollectorAdapter">
                <object identity="Collector" type="Collector"/>
