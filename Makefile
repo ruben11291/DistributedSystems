@@ -16,7 +16,7 @@ MatrixCollector: MatrixCollector.o CannonI.o Cannon.o Modify.o
 generate: generate.cpp
 
 clean:
-	$(RM) -rf  bin/* *~ 
+	$(RM) -rf  bin/* *~ *.o
 
 ejecuteClient:
 	./MatrixClient resources/matrizA.m resources/matrizB.m resources/nproc.m --Ice.Config=config/locator.cfg
