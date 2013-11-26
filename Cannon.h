@@ -63,6 +63,10 @@ class Processor;
 void __read(::IceInternal::BasicStream*, ::IceInternal::ProxyHandle< ::IceProxy::Cannon::Processor>&);
 ::IceProxy::Ice::Object* upCast(::IceProxy::Cannon::Processor*);
 
+class Operations;
+void __read(::IceInternal::BasicStream*, ::IceInternal::ProxyHandle< ::IceProxy::Cannon::Operations>&);
+::IceProxy::Ice::Object* upCast(::IceProxy::Cannon::Operations*);
+
 }
 
 }
@@ -85,6 +89,14 @@ bool operator<(const Processor&, const Processor&);
 typedef ::IceInternal::Handle< ::Cannon::Processor> ProcessorPtr;
 typedef ::IceInternal::ProxyHandle< ::IceProxy::Cannon::Processor> ProcessorPrx;
 void __patch(ProcessorPtr&, const ::Ice::ObjectPtr&);
+
+class Operations;
+bool operator==(const Operations&, const Operations&);
+bool operator<(const Operations&, const Operations&);
+::Ice::Object* upCast(::Cannon::Operations*);
+typedef ::IceInternal::Handle< ::Cannon::Operations> OperationsPtr;
+typedef ::IceInternal::ProxyHandle< ::IceProxy::Cannon::Operations> OperationsPrx;
+void __patch(OperationsPtr&, const ::Ice::ObjectPtr&);
 
 }
 
@@ -142,8 +154,14 @@ typedef ::IceUtil::Handle< Callback_Collector_injectSubmatrix_Base> Callback_Col
 class Callback_Processor_init_Base : virtual public ::IceInternal::CallbackBase { };
 typedef ::IceUtil::Handle< Callback_Processor_init_Base> Callback_Processor_initPtr;
 
-class Callback_Processor_injectMatrix_Base : virtual public ::IceInternal::CallbackBase { };
-typedef ::IceUtil::Handle< Callback_Processor_injectMatrix_Base> Callback_Processor_injectMatrixPtr;
+class Callback_Processor_injectFirst_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_Processor_injectFirst_Base> Callback_Processor_injectFirstPtr;
+
+class Callback_Processor_injectSecond_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_Processor_injectSecond_Base> Callback_Processor_injectSecondPtr;
+
+class Callback_Operations_matrixMultiply_Base : virtual public ::IceInternal::CallbackBase { };
+typedef ::IceUtil::Handle< Callback_Operations_matrixMultiply_Base> Callback_Operations_matrixMultiplyPtr;
 
 }
 
@@ -410,73 +428,143 @@ private:
     
 public:
 
-    void injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step)
+    void injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step)
     {
-        injectMatrix(a, b, step, 0);
+        injectFirst(a, step, 0);
     }
-    void injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context& __ctx)
+    void injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step, const ::Ice::Context& __ctx)
     {
-        injectMatrix(a, b, step, &__ctx);
+        injectFirst(a, step, &__ctx);
     }
 #ifdef ICE_CPP11
     ::Ice::AsyncResultPtr
-    begin_injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return begin_injectMatrix(a, b, step, 0, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent));
+        return begin_injectFirst(a, step, 0, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent));
     }
     ::Ice::AsyncResultPtr
-    begin_injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_injectMatrix(a, b, step, 0, ::Ice::newCallback(__completed, __sent), 0);
+        return begin_injectFirst(a, step, 0, ::Ice::newCallback(__completed, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context& __ctx, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    begin_injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step, const ::Ice::Context& __ctx, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
     {
-        return begin_injectMatrix(a, b, step, &__ctx, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent), 0);
+        return begin_injectFirst(a, step, &__ctx, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent), 0);
     }
     ::Ice::AsyncResultPtr
-    begin_injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    begin_injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
     {
-        return begin_injectMatrix(a, b, step, &__ctx, ::Ice::newCallback(__completed, __sent));
+        return begin_injectFirst(a, step, &__ctx, ::Ice::newCallback(__completed, __sent));
     }
 #endif
 
-    ::Ice::AsyncResultPtr begin_injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step)
+    ::Ice::AsyncResultPtr begin_injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step)
     {
-        return begin_injectMatrix(a, b, step, 0, ::IceInternal::__dummyCallback, 0);
+        return begin_injectFirst(a, step, 0, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context& __ctx)
+    ::Ice::AsyncResultPtr begin_injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step, const ::Ice::Context& __ctx)
     {
-        return begin_injectMatrix(a, b, step, &__ctx, ::IceInternal::__dummyCallback, 0);
+        return begin_injectFirst(a, step, &__ctx, ::IceInternal::__dummyCallback, 0);
     }
 
-    ::Ice::AsyncResultPtr begin_injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_injectMatrix(a, b, step, 0, __del, __cookie);
+        return begin_injectFirst(a, step, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_injectMatrix(a, b, step, &__ctx, __del, __cookie);
+        return begin_injectFirst(a, step, &__ctx, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step, const ::Cannon::Callback_Processor_injectMatrixPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step, const ::Cannon::Callback_Processor_injectFirstPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_injectMatrix(a, b, step, 0, __del, __cookie);
+        return begin_injectFirst(a, step, 0, __del, __cookie);
     }
 
-    ::Ice::AsyncResultPtr begin_injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context& __ctx, const ::Cannon::Callback_Processor_injectMatrixPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    ::Ice::AsyncResultPtr begin_injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step, const ::Ice::Context& __ctx, const ::Cannon::Callback_Processor_injectFirstPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
     {
-        return begin_injectMatrix(a, b, step, &__ctx, __del, __cookie);
+        return begin_injectFirst(a, step, &__ctx, __del, __cookie);
     }
 
-    void end_injectMatrix(const ::Ice::AsyncResultPtr&);
+    void end_injectFirst(const ::Ice::AsyncResultPtr&);
     
 private:
 
-    void injectMatrix(const ::Cannon::Matrix&, const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*);
-    ::Ice::AsyncResultPtr begin_injectMatrix(const ::Cannon::Matrix&, const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    void injectFirst(const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_injectFirst(const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
+
+    void injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step)
+    {
+        injectSecond(b, step, 0);
+    }
+    void injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context& __ctx)
+    {
+        injectSecond(b, step, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return begin_injectSecond(b, step, 0, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent));
+    }
+    ::Ice::AsyncResultPtr
+    begin_injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_injectSecond(b, step, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context& __ctx, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return begin_injectSecond(b, step, &__ctx, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_injectSecond(b, step, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+#endif
+
+    ::Ice::AsyncResultPtr begin_injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step)
+    {
+        return begin_injectSecond(b, step, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context& __ctx)
+    {
+        return begin_injectSecond(b, step, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_injectSecond(b, step, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_injectSecond(b, step, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step, const ::Cannon::Callback_Processor_injectSecondPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_injectSecond(b, step, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context& __ctx, const ::Cannon::Callback_Processor_injectSecondPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_injectSecond(b, step, &__ctx, __del, __cookie);
+    }
+
+    void end_injectSecond(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    void injectSecond(const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_injectSecond(const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
     
 public:
     
@@ -589,6 +677,232 @@ private:
     virtual ::IceProxy::Ice::Object* __newInstance() const;
 };
 
+class Operations : virtual public ::IceProxy::Ice::Object
+{
+public:
+
+    ::Cannon::Matrix matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b)
+    {
+        return matrixMultiply(a, b, 0);
+    }
+    ::Cannon::Matrix matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::Ice::Context& __ctx)
+    {
+        return matrixMultiply(a, b, &__ctx);
+    }
+#ifdef ICE_CPP11
+    ::Ice::AsyncResultPtr
+    begin_matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::IceInternal::Function<void (const ::Cannon::Matrix&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_matrixMultiply(a, b, 0, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_matrixMultiply(a, b, 0, ::Ice::newCallback(__completed, __sent), 0);
+    }
+    ::Ice::AsyncResultPtr
+    begin_matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Cannon::Matrix&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
+    {
+        return __begin_matrixMultiply(a, b, &__ctx, __response, __exception, __sent);
+    }
+    ::Ice::AsyncResultPtr
+    begin_matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
+    {
+        return begin_matrixMultiply(a, b, &__ctx, ::Ice::newCallback(__completed, __sent));
+    }
+    
+private:
+
+    ::Ice::AsyncResultPtr __begin_matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::Ice::Context* __ctx, const ::IceInternal::Function<void (const ::Cannon::Matrix&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
+    {
+        class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
+        {
+        public:
+
+            Cpp11CB(const ::std::function<void (const ::Cannon::Matrix&)>& responseFunc, const ::std::function<void (const ::Ice::Exception&)>& exceptionFunc, const ::std::function<void (bool)>& sentFunc) :
+                ::IceInternal::Cpp11FnCallbackNC(exceptionFunc, sentFunc),
+                _response(responseFunc)
+            {
+                CallbackBase::checkCallback(true, responseFunc || exceptionFunc != nullptr);
+            }
+
+            virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+            {
+                ::Cannon::OperationsPrx __proxy = ::Cannon::OperationsPrx::uncheckedCast(__result->getProxy());
+                ::Cannon::Matrix __ret;
+                try
+                {
+                    __ret = __proxy->end_matrixMultiply(__result);
+                }
+                catch(::Ice::Exception& ex)
+                {
+                    Cpp11FnCallbackNC::__exception(__result, ex);
+                    return;
+                }
+                if(_response != nullptr)
+                {
+                    _response(__ret);
+                }
+            }
+        
+        private:
+            
+            ::std::function<void (const ::Cannon::Matrix&)> _response;
+        };
+        return begin_matrixMultiply(a, b, __ctx, new Cpp11CB(__response, __exception, __sent));
+    }
+    
+public:
+#endif
+
+    ::Ice::AsyncResultPtr begin_matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b)
+    {
+        return begin_matrixMultiply(a, b, 0, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::Ice::Context& __ctx)
+    {
+        return begin_matrixMultiply(a, b, &__ctx, ::IceInternal::__dummyCallback, 0);
+    }
+
+    ::Ice::AsyncResultPtr begin_matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_matrixMultiply(a, b, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_matrixMultiply(a, b, &__ctx, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::Cannon::Callback_Operations_matrixMultiplyPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_matrixMultiply(a, b, 0, __del, __cookie);
+    }
+
+    ::Ice::AsyncResultPtr begin_matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::Ice::Context& __ctx, const ::Cannon::Callback_Operations_matrixMultiplyPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
+    {
+        return begin_matrixMultiply(a, b, &__ctx, __del, __cookie);
+    }
+
+    ::Cannon::Matrix end_matrixMultiply(const ::Ice::AsyncResultPtr&);
+    
+private:
+
+    ::Cannon::Matrix matrixMultiply(const ::Cannon::Matrix&, const ::Cannon::Matrix&, const ::Ice::Context*);
+    ::Ice::AsyncResultPtr begin_matrixMultiply(const ::Cannon::Matrix&, const ::Cannon::Matrix&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
+    
+public:
+    
+    ::IceInternal::ProxyHandle<Operations> ice_context(const ::Ice::Context& __context) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_context(__context).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_adapterId(const ::std::string& __id) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_adapterId(__id).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_endpoints(const ::Ice::EndpointSeq& __endpoints) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_endpoints(__endpoints).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_locatorCacheTimeout(int __timeout) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_locatorCacheTimeout(__timeout).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_connectionCached(bool __cached) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_connectionCached(__cached).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_endpointSelection(::Ice::EndpointSelectionType __est) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_endpointSelection(__est).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_secure(bool __secure) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_secure(__secure).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_preferSecure(bool __preferSecure) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_preferSecure(__preferSecure).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_router(const ::Ice::RouterPrx& __router) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_router(__router).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_locator(const ::Ice::LocatorPrx& __locator) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_locator(__locator).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_collocationOptimized(bool __co) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_collocationOptimized(__co).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_twoway() const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_twoway().get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_oneway() const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_oneway().get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_batchOneway() const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_batchOneway().get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_datagram() const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_datagram().get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_batchDatagram() const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_batchDatagram().get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_compress(bool __compress) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_compress(__compress).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_timeout(int __timeout) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_timeout(__timeout).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_connectionId(const ::std::string& __id) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_connectionId(__id).get());
+    }
+    
+    ::IceInternal::ProxyHandle<Operations> ice_encodingVersion(const ::Ice::EncodingVersion& __v) const
+    {
+        return dynamic_cast<Operations*>(::IceProxy::Ice::Object::ice_encodingVersion(__v).get());
+    }
+    
+    static const ::std::string& ice_staticId();
+
+private: 
+
+    virtual ::IceInternal::Handle< ::IceDelegateM::Ice::Object> __createDelegateM();
+    virtual ::IceInternal::Handle< ::IceDelegateD::Ice::Object> __createDelegateD();
+    virtual ::IceProxy::Ice::Object* __newInstance() const;
+};
+
 }
 
 }
@@ -612,7 +926,16 @@ public:
 
     virtual void init(::Ice::Int, ::Ice::Int, const ::Cannon::ProcessorPrx&, const ::Cannon::ProcessorPrx&, ::Ice::Int, const ::Cannon::CollectorPrx&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 
-    virtual void injectMatrix(const ::Cannon::Matrix&, const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+    virtual void injectFirst(const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+
+    virtual void injectSecond(const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
+};
+
+class Operations : virtual public ::IceDelegate::Ice::Object
+{
+public:
+
+    virtual ::Cannon::Matrix matrixMultiply(const ::Cannon::Matrix&, const ::Cannon::Matrix&, const ::Ice::Context*, ::IceInternal::InvocationObserver&) = 0;
 };
 
 }
@@ -640,7 +963,17 @@ public:
 
     virtual void init(::Ice::Int, ::Ice::Int, const ::Cannon::ProcessorPrx&, const ::Cannon::ProcessorPrx&, ::Ice::Int, const ::Cannon::CollectorPrx&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual void injectMatrix(const ::Cannon::Matrix&, const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual void injectFirst(const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual void injectSecond(const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+};
+
+class Operations : virtual public ::IceDelegate::Cannon::Operations,
+                   virtual public ::IceDelegateM::Ice::Object
+{
+public:
+
+    virtual ::Cannon::Matrix matrixMultiply(const ::Cannon::Matrix&, const ::Cannon::Matrix&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 };
 
 }
@@ -668,7 +1001,17 @@ public:
 
     virtual void init(::Ice::Int, ::Ice::Int, const ::Cannon::ProcessorPrx&, const ::Cannon::ProcessorPrx&, ::Ice::Int, const ::Cannon::CollectorPrx&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 
-    virtual void injectMatrix(const ::Cannon::Matrix&, const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+    virtual void injectFirst(const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+
+    virtual void injectSecond(const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
+};
+
+class Operations : virtual public ::IceDelegate::Cannon::Operations,
+                   virtual public ::IceDelegateD::Ice::Object
+{
+public:
+
+    virtual ::Cannon::Matrix matrixMultiply(const ::Cannon::Matrix&, const ::Cannon::Matrix&, const ::Ice::Context*, ::IceInternal::InvocationObserver&);
 };
 
 }
@@ -729,8 +1072,11 @@ public:
     virtual void init(::Ice::Int, ::Ice::Int, const ::Cannon::ProcessorPrx&, const ::Cannon::ProcessorPrx&, ::Ice::Int, const ::Cannon::CollectorPrx&, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___init(::IceInternal::Incoming&, const ::Ice::Current&);
 
-    virtual void injectMatrix(const ::Cannon::Matrix&, const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Current& = ::Ice::Current()) = 0;
-    ::Ice::DispatchStatus ___injectMatrix(::IceInternal::Incoming&, const ::Ice::Current&);
+    virtual void injectFirst(const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___injectFirst(::IceInternal::Incoming&, const ::Ice::Current&);
+
+    virtual void injectSecond(const ::Cannon::Matrix&, ::Ice::Int, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___injectSecond(::IceInternal::Incoming&, const ::Ice::Current&);
 
     virtual ::Ice::DispatchStatus __dispatch(::IceInternal::Incoming&, const ::Ice::Current&);
 
@@ -749,6 +1095,42 @@ inline bool operator==(const Processor& l, const Processor& r)
 }
 
 inline bool operator<(const Processor& l, const Processor& r)
+{
+    return static_cast<const ::Ice::Object&>(l) < static_cast<const ::Ice::Object&>(r);
+}
+
+class Operations : virtual public ::Ice::Object
+{
+public:
+
+    typedef OperationsPrx ProxyType;
+    typedef OperationsPtr PointerType;
+
+    virtual bool ice_isA(const ::std::string&, const ::Ice::Current& = ::Ice::Current()) const;
+    virtual ::std::vector< ::std::string> ice_ids(const ::Ice::Current& = ::Ice::Current()) const;
+    virtual const ::std::string& ice_id(const ::Ice::Current& = ::Ice::Current()) const;
+    static const ::std::string& ice_staticId();
+
+    virtual ::Cannon::Matrix matrixMultiply(const ::Cannon::Matrix&, const ::Cannon::Matrix&, const ::Ice::Current& = ::Ice::Current()) = 0;
+    ::Ice::DispatchStatus ___matrixMultiply(::IceInternal::Incoming&, const ::Ice::Current&);
+
+    virtual ::Ice::DispatchStatus __dispatch(::IceInternal::Incoming&, const ::Ice::Current&);
+
+protected:
+    virtual void __writeImpl(::IceInternal::BasicStream*) const;
+    virtual void __readImpl(::IceInternal::BasicStream*);
+    #ifdef __SUNPRO_CC
+    using ::Ice::Object::__writeImpl;
+    using ::Ice::Object::__readImpl;
+    #endif
+};
+
+inline bool operator==(const Operations& l, const Operations& r)
+{
+    return static_cast<const ::Ice::Object&>(l) == static_cast<const ::Ice::Object&>(r);
+}
+
+inline bool operator<(const Operations& l, const Operations& r)
 {
     return static_cast<const ::Ice::Object&>(l) < static_cast<const ::Ice::Object&>(r);
 }
@@ -923,7 +1305,7 @@ newCallback_Processor_init(T* instance, void (T::*excb)(const ::Ice::Exception&,
 }
 
 template<class T>
-class CallbackNC_Processor_injectMatrix : public Callback_Processor_injectMatrix_Base, public ::IceInternal::OnewayCallbackNC<T>
+class CallbackNC_Processor_injectFirst : public Callback_Processor_injectFirst_Base, public ::IceInternal::OnewayCallbackNC<T>
 {
 public:
 
@@ -933,38 +1315,38 @@ public:
     typedef void (T::*Sent)(bool);
     typedef void (T::*Response)();
 
-    CallbackNC_Processor_injectMatrix(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+    CallbackNC_Processor_injectFirst(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
         : ::IceInternal::OnewayCallbackNC<T>(obj, cb, excb, sentcb)
     {
     }
 };
 
-template<class T> Callback_Processor_injectMatrixPtr
-newCallback_Processor_injectMatrix(const IceUtil::Handle<T>& instance, void (T::*cb)(), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+template<class T> Callback_Processor_injectFirstPtr
+newCallback_Processor_injectFirst(const IceUtil::Handle<T>& instance, void (T::*cb)(), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
 {
-    return new CallbackNC_Processor_injectMatrix<T>(instance, cb, excb, sentcb);
+    return new CallbackNC_Processor_injectFirst<T>(instance, cb, excb, sentcb);
 }
 
-template<class T> Callback_Processor_injectMatrixPtr
-newCallback_Processor_injectMatrix(const IceUtil::Handle<T>& instance, void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+template<class T> Callback_Processor_injectFirstPtr
+newCallback_Processor_injectFirst(const IceUtil::Handle<T>& instance, void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
 {
-    return new CallbackNC_Processor_injectMatrix<T>(instance, 0, excb, sentcb);
+    return new CallbackNC_Processor_injectFirst<T>(instance, 0, excb, sentcb);
 }
 
-template<class T> Callback_Processor_injectMatrixPtr
-newCallback_Processor_injectMatrix(T* instance, void (T::*cb)(), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+template<class T> Callback_Processor_injectFirstPtr
+newCallback_Processor_injectFirst(T* instance, void (T::*cb)(), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
 {
-    return new CallbackNC_Processor_injectMatrix<T>(instance, cb, excb, sentcb);
+    return new CallbackNC_Processor_injectFirst<T>(instance, cb, excb, sentcb);
 }
 
-template<class T> Callback_Processor_injectMatrixPtr
-newCallback_Processor_injectMatrix(T* instance, void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+template<class T> Callback_Processor_injectFirstPtr
+newCallback_Processor_injectFirst(T* instance, void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
 {
-    return new CallbackNC_Processor_injectMatrix<T>(instance, 0, excb, sentcb);
+    return new CallbackNC_Processor_injectFirst<T>(instance, 0, excb, sentcb);
 }
 
 template<class T, typename CT>
-class Callback_Processor_injectMatrix : public Callback_Processor_injectMatrix_Base, public ::IceInternal::OnewayCallback<T, CT>
+class Callback_Processor_injectFirst : public Callback_Processor_injectFirst_Base, public ::IceInternal::OnewayCallback<T, CT>
 {
 public:
 
@@ -974,34 +1356,216 @@ public:
     typedef void (T::*Sent)(bool , const CT&);
     typedef void (T::*Response)(const CT&);
 
-    Callback_Processor_injectMatrix(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+    Callback_Processor_injectFirst(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
         : ::IceInternal::OnewayCallback<T, CT>(obj, cb, excb, sentcb)
     {
     }
 };
 
-template<class T, typename CT> Callback_Processor_injectMatrixPtr
-newCallback_Processor_injectMatrix(const IceUtil::Handle<T>& instance, void (T::*cb)(const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+template<class T, typename CT> Callback_Processor_injectFirstPtr
+newCallback_Processor_injectFirst(const IceUtil::Handle<T>& instance, void (T::*cb)(const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
 {
-    return new Callback_Processor_injectMatrix<T, CT>(instance, cb, excb, sentcb);
+    return new Callback_Processor_injectFirst<T, CT>(instance, cb, excb, sentcb);
 }
 
-template<class T, typename CT> Callback_Processor_injectMatrixPtr
-newCallback_Processor_injectMatrix(const IceUtil::Handle<T>& instance, void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+template<class T, typename CT> Callback_Processor_injectFirstPtr
+newCallback_Processor_injectFirst(const IceUtil::Handle<T>& instance, void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
 {
-    return new Callback_Processor_injectMatrix<T, CT>(instance, 0, excb, sentcb);
+    return new Callback_Processor_injectFirst<T, CT>(instance, 0, excb, sentcb);
 }
 
-template<class T, typename CT> Callback_Processor_injectMatrixPtr
-newCallback_Processor_injectMatrix(T* instance, void (T::*cb)(const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+template<class T, typename CT> Callback_Processor_injectFirstPtr
+newCallback_Processor_injectFirst(T* instance, void (T::*cb)(const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
 {
-    return new Callback_Processor_injectMatrix<T, CT>(instance, cb, excb, sentcb);
+    return new Callback_Processor_injectFirst<T, CT>(instance, cb, excb, sentcb);
 }
 
-template<class T, typename CT> Callback_Processor_injectMatrixPtr
-newCallback_Processor_injectMatrix(T* instance, void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+template<class T, typename CT> Callback_Processor_injectFirstPtr
+newCallback_Processor_injectFirst(T* instance, void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
 {
-    return new Callback_Processor_injectMatrix<T, CT>(instance, 0, excb, sentcb);
+    return new Callback_Processor_injectFirst<T, CT>(instance, 0, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_Processor_injectSecond : public Callback_Processor_injectSecond_Base, public ::IceInternal::OnewayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)();
+
+    CallbackNC_Processor_injectSecond(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::OnewayCallbackNC<T>(obj, cb, excb, sentcb)
+    {
+    }
+};
+
+template<class T> Callback_Processor_injectSecondPtr
+newCallback_Processor_injectSecond(const IceUtil::Handle<T>& instance, void (T::*cb)(), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_Processor_injectSecond<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_Processor_injectSecondPtr
+newCallback_Processor_injectSecond(const IceUtil::Handle<T>& instance, void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_Processor_injectSecond<T>(instance, 0, excb, sentcb);
+}
+
+template<class T> Callback_Processor_injectSecondPtr
+newCallback_Processor_injectSecond(T* instance, void (T::*cb)(), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_Processor_injectSecond<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_Processor_injectSecondPtr
+newCallback_Processor_injectSecond(T* instance, void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_Processor_injectSecond<T>(instance, 0, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_Processor_injectSecond : public Callback_Processor_injectSecond_Base, public ::IceInternal::OnewayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(const CT&);
+
+    Callback_Processor_injectSecond(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::OnewayCallback<T, CT>(obj, cb, excb, sentcb)
+    {
+    }
+};
+
+template<class T, typename CT> Callback_Processor_injectSecondPtr
+newCallback_Processor_injectSecond(const IceUtil::Handle<T>& instance, void (T::*cb)(const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_Processor_injectSecond<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_Processor_injectSecondPtr
+newCallback_Processor_injectSecond(const IceUtil::Handle<T>& instance, void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_Processor_injectSecond<T, CT>(instance, 0, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_Processor_injectSecondPtr
+newCallback_Processor_injectSecond(T* instance, void (T::*cb)(const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_Processor_injectSecond<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_Processor_injectSecondPtr
+newCallback_Processor_injectSecond(T* instance, void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_Processor_injectSecond<T, CT>(instance, 0, excb, sentcb);
+}
+
+template<class T>
+class CallbackNC_Operations_matrixMultiply : public Callback_Operations_matrixMultiply_Base, public ::IceInternal::TwowayCallbackNC<T>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception&);
+    typedef void (T::*Sent)(bool);
+    typedef void (T::*Response)(const ::Cannon::Matrix&);
+
+    CallbackNC_Operations_matrixMultiply(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::Cannon::OperationsPrx __proxy = ::Cannon::OperationsPrx::uncheckedCast(__result->getProxy());
+        ::Cannon::Matrix __ret;
+        try
+        {
+            __ret = __proxy->end_matrixMultiply(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::CallbackNC<T>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::CallbackNC<T>::callback.get()->*response)(__ret);
+        }
+    }
+
+    Response response;
+};
+
+template<class T> Callback_Operations_matrixMultiplyPtr
+newCallback_Operations_matrixMultiply(const IceUtil::Handle<T>& instance, void (T::*cb)(const ::Cannon::Matrix&), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_Operations_matrixMultiply<T>(instance, cb, excb, sentcb);
+}
+
+template<class T> Callback_Operations_matrixMultiplyPtr
+newCallback_Operations_matrixMultiply(T* instance, void (T::*cb)(const ::Cannon::Matrix&), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
+{
+    return new CallbackNC_Operations_matrixMultiply<T>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT>
+class Callback_Operations_matrixMultiply : public Callback_Operations_matrixMultiply_Base, public ::IceInternal::TwowayCallback<T, CT>
+{
+public:
+
+    typedef IceUtil::Handle<T> TPtr;
+
+    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
+    typedef void (T::*Sent)(bool , const CT&);
+    typedef void (T::*Response)(const ::Cannon::Matrix&, const CT&);
+
+    Callback_Operations_matrixMultiply(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
+        : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), response(cb)
+    {
+    }
+
+    virtual void __completed(const ::Ice::AsyncResultPtr& __result) const
+    {
+        ::Cannon::OperationsPrx __proxy = ::Cannon::OperationsPrx::uncheckedCast(__result->getProxy());
+        ::Cannon::Matrix __ret;
+        try
+        {
+            __ret = __proxy->end_matrixMultiply(__result);
+        }
+        catch(::Ice::Exception& ex)
+        {
+            ::IceInternal::Callback<T, CT>::__exception(__result, ex);
+            return;
+        }
+        if(response)
+        {
+            (::IceInternal::Callback<T, CT>::callback.get()->*response)(__ret, CT::dynamicCast(__result->getCookie()));
+        }
+    }
+
+    Response response;
+};
+
+template<class T, typename CT> Callback_Operations_matrixMultiplyPtr
+newCallback_Operations_matrixMultiply(const IceUtil::Handle<T>& instance, void (T::*cb)(const ::Cannon::Matrix&, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_Operations_matrixMultiply<T, CT>(instance, cb, excb, sentcb);
+}
+
+template<class T, typename CT> Callback_Operations_matrixMultiplyPtr
+newCallback_Operations_matrixMultiply(T* instance, void (T::*cb)(const ::Cannon::Matrix&, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
+{
+    return new Callback_Operations_matrixMultiply<T, CT>(instance, cb, excb, sentcb);
 }
 
 }

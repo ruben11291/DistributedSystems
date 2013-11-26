@@ -23,7 +23,7 @@ Dispatch::Dispatch(int npro, Ice::ObjectPrx& proxy, CollectorPrx& collector):npr
  }
  
  for(int i =0; i<size; i++){
-   processor[i]->init( (int)(i/(int)sqrt(nproc)) , (int)(i%(int)sqrt(nproc)) , processor[getLeft(i)],processor[getNorth(i)],(int)sqrt(nproc), collector);
+   processor[i]->init( (int)(i/(int)sqrt(nproc)) , (int)(i%(int)sqrt(nproc)) ,processor[getNorth(i)], processor[getLeft(i)],(int)sqrt(nproc), collector);
  }
 
 }
@@ -37,16 +37,18 @@ void Dispatch::distr(const std::vector< ::Cannon::Matrix> & mA, const std::vecto
  
  assert(nproc == mA.size());
 
- if(time < (int)sqrt(nproc)){
-   std::vector< ::Cannon::Matrix> mtA,mtB;
+ // if(time < (int)sqrt(nproc)){
+ //std::vector< ::Cannon::Matrix> mtA,mtB;
    for( int i= 0; i < nproc; i++){
      Cannon::Matrix tmpA(mA[i]),tmpB(mB[i]);
-     processor[i]->injectMatrix(tmpA,tmpB,time);
-     mtA.push_back(mA[getLeft(i)]);
-     mtB.push_back(mB[getNorth(i)]);
+     processor[i]->begin_injectFirst(tmpA,time);
+     processor[i]->begin_injectSecond(tmpB,time);
+     
+     //  mtA.push_back(mA[getLeft(i)]);
+     //mtB.push_back(mB[getNorth(i)]);
    }
-   this->distr(mtA, mtB, time+1);
- }
+   // this->distr(mtA, mtB, time+1);
+   //}
 
 
  // for( int i= 0; i < nproc; i++){

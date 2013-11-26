@@ -44,7 +44,11 @@ const ::std::string __Cannon__Collector__injectSubmatrix_name = "injectSubmatrix
 
 const ::std::string __Cannon__Processor__init_name = "init";
 
-const ::std::string __Cannon__Processor__injectMatrix_name = "injectMatrix";
+const ::std::string __Cannon__Processor__injectFirst_name = "injectFirst";
+
+const ::std::string __Cannon__Processor__injectSecond_name = "injectSecond";
+
+const ::std::string __Cannon__Operations__matrixMultiply_name = "matrixMultiply";
 
 }
 
@@ -221,9 +225,9 @@ IceProxy::Cannon::Processor::end_init(const ::Ice::AsyncResultPtr& __result)
 }
 
 void
-IceProxy::Cannon::Processor::injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context* __ctx)
+IceProxy::Cannon::Processor::injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step, const ::Ice::Context* __ctx)
 {
-    ::IceInternal::InvocationObserver __observer(this, __Cannon__Processor__injectMatrix_name, __ctx);
+    ::IceInternal::InvocationObserver __observer(this, __Cannon__Processor__injectFirst_name, __ctx);
     int __cnt = 0;
     while(true)
     {
@@ -232,7 +236,7 @@ IceProxy::Cannon::Processor::injectMatrix(const ::Cannon::Matrix& a, const ::Can
         {
             __delBase = __getDelegate(false);
             ::IceDelegate::Cannon::Processor* __del = dynamic_cast< ::IceDelegate::Cannon::Processor*>(__delBase.get());
-            __del->injectMatrix(a, b, step, __ctx, __observer);
+            __del->injectFirst(a, step, __ctx, __observer);
             return;
         }
         catch(const ::IceInternal::LocalExceptionWrapper& __ex)
@@ -247,14 +251,65 @@ IceProxy::Cannon::Processor::injectMatrix(const ::Cannon::Matrix& a, const ::Can
 }
 
 ::Ice::AsyncResultPtr
-IceProxy::Cannon::Processor::begin_injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+IceProxy::Cannon::Processor::begin_injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
 {
-    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Cannon__Processor__injectMatrix_name, __del, __cookie);
+    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Cannon__Processor__injectFirst_name, __del, __cookie);
     try
     {
-        __result->__prepare(__Cannon__Processor__injectMatrix_name, ::Ice::Normal, __ctx);
+        __result->__prepare(__Cannon__Processor__injectFirst_name, ::Ice::Normal, __ctx);
         ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
         __os->write(a);
+        __os->write(step);
+        __result->__endWriteParams();
+        __result->__send(true);
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __result->__exceptionAsync(__ex);
+    }
+    return __result;
+}
+
+void
+IceProxy::Cannon::Processor::end_injectFirst(const ::Ice::AsyncResultPtr& __result)
+{
+    __end(__result, __Cannon__Processor__injectFirst_name);
+}
+
+void
+IceProxy::Cannon::Processor::injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context* __ctx)
+{
+    ::IceInternal::InvocationObserver __observer(this, __Cannon__Processor__injectSecond_name, __ctx);
+    int __cnt = 0;
+    while(true)
+    {
+        ::IceInternal::Handle< ::IceDelegate::Ice::Object> __delBase;
+        try
+        {
+            __delBase = __getDelegate(false);
+            ::IceDelegate::Cannon::Processor* __del = dynamic_cast< ::IceDelegate::Cannon::Processor*>(__delBase.get());
+            __del->injectSecond(b, step, __ctx, __observer);
+            return;
+        }
+        catch(const ::IceInternal::LocalExceptionWrapper& __ex)
+        {
+            __handleExceptionWrapper(__delBase, __ex, __observer);
+        }
+        catch(const ::Ice::LocalException& __ex)
+        {
+            __handleException(__delBase, __ex, true, __cnt, __observer);
+        }
+    }
+}
+
+::Ice::AsyncResultPtr
+IceProxy::Cannon::Processor::begin_injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+{
+    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Cannon__Processor__injectSecond_name, __del, __cookie);
+    try
+    {
+        __result->__prepare(__Cannon__Processor__injectSecond_name, ::Ice::Normal, __ctx);
+        ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
         __os->write(b);
         __os->write(step);
         __result->__endWriteParams();
@@ -268,9 +323,9 @@ IceProxy::Cannon::Processor::begin_injectMatrix(const ::Cannon::Matrix& a, const
 }
 
 void
-IceProxy::Cannon::Processor::end_injectMatrix(const ::Ice::AsyncResultPtr& __result)
+IceProxy::Cannon::Processor::end_injectSecond(const ::Ice::AsyncResultPtr& __result)
 {
-    __end(__result, __Cannon__Processor__injectMatrix_name);
+    __end(__result, __Cannon__Processor__injectSecond_name);
 }
 
 const ::std::string&
@@ -295,6 +350,125 @@ IceProxy::Cannon::Processor::__createDelegateD()
 IceProxy::Cannon::Processor::__newInstance() const
 {
     return new Processor;
+}
+::IceProxy::Ice::Object* ::IceProxy::Cannon::upCast(::IceProxy::Cannon::Operations* p) { return p; }
+
+void
+::IceProxy::Cannon::__read(::IceInternal::BasicStream* __is, ::IceInternal::ProxyHandle< ::IceProxy::Cannon::Operations>& v)
+{
+    ::Ice::ObjectPrx proxy;
+    __is->read(proxy);
+    if(!proxy)
+    {
+        v = 0;
+    }
+    else
+    {
+        v = new ::IceProxy::Cannon::Operations;
+        v->__copyFrom(proxy);
+    }
+}
+
+::Cannon::Matrix
+IceProxy::Cannon::Operations::matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::Ice::Context* __ctx)
+{
+    ::IceInternal::InvocationObserver __observer(this, __Cannon__Operations__matrixMultiply_name, __ctx);
+    int __cnt = 0;
+    while(true)
+    {
+        ::IceInternal::Handle< ::IceDelegate::Ice::Object> __delBase;
+        try
+        {
+            __checkTwowayOnly(__Cannon__Operations__matrixMultiply_name);
+            __delBase = __getDelegate(false);
+            ::IceDelegate::Cannon::Operations* __del = dynamic_cast< ::IceDelegate::Cannon::Operations*>(__delBase.get());
+            return __del->matrixMultiply(a, b, __ctx, __observer);
+        }
+        catch(const ::IceInternal::LocalExceptionWrapper& __ex)
+        {
+            __handleExceptionWrapper(__delBase, __ex, __observer);
+        }
+        catch(const ::Ice::LocalException& __ex)
+        {
+            __handleException(__delBase, __ex, true, __cnt, __observer);
+        }
+    }
+}
+
+::Ice::AsyncResultPtr
+IceProxy::Cannon::Operations::begin_matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+{
+    __checkAsyncTwowayOnly(__Cannon__Operations__matrixMultiply_name);
+    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Cannon__Operations__matrixMultiply_name, __del, __cookie);
+    try
+    {
+        __result->__prepare(__Cannon__Operations__matrixMultiply_name, ::Ice::Normal, __ctx);
+        ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
+        __os->write(a);
+        __os->write(b);
+        __result->__endWriteParams();
+        __result->__send(true);
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __result->__exceptionAsync(__ex);
+    }
+    return __result;
+}
+
+::Cannon::Matrix
+IceProxy::Cannon::Operations::end_matrixMultiply(const ::Ice::AsyncResultPtr& __result)
+{
+    ::Ice::AsyncResult::__check(__result, this, __Cannon__Operations__matrixMultiply_name);
+    ::Cannon::Matrix __ret;
+    bool __ok = __result->__wait();
+    try
+    {
+        if(!__ok)
+        {
+            try
+            {
+                __result->__throwUserException();
+            }
+            catch(const ::Ice::UserException& __ex)
+            {
+                throw ::Ice::UnknownUserException(__FILE__, __LINE__, __ex.ice_name());
+            }
+        }
+        ::IceInternal::BasicStream* __is = __result->__startReadParams();
+        __is->read(__ret);
+        __result->__endReadParams();
+        return __ret;
+    }
+    catch(const ::Ice::LocalException& ex)
+    {
+        __result->__getObserver().failed(ex.ice_name());
+        throw;
+    }
+}
+
+const ::std::string&
+IceProxy::Cannon::Operations::ice_staticId()
+{
+    return ::Cannon::Operations::ice_staticId();
+}
+
+::IceInternal::Handle< ::IceDelegateM::Ice::Object>
+IceProxy::Cannon::Operations::__createDelegateM()
+{
+    return ::IceInternal::Handle< ::IceDelegateM::Ice::Object>(new ::IceDelegateM::Cannon::Operations);
+}
+
+::IceInternal::Handle< ::IceDelegateD::Ice::Object>
+IceProxy::Cannon::Operations::__createDelegateD()
+{
+    return ::IceInternal::Handle< ::IceDelegateD::Ice::Object>(new ::IceDelegateD::Cannon::Operations);
+}
+
+::IceProxy::Ice::Object*
+IceProxy::Cannon::Operations::__newInstance() const
+{
+    return new Operations;
 }
 
 void
@@ -386,13 +560,53 @@ IceDelegateM::Cannon::Processor::init(::Ice::Int row, ::Ice::Int col, const ::Ca
 }
 
 void
-IceDelegateM::Cannon::Processor::injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+IceDelegateM::Cannon::Processor::injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
 {
-    ::IceInternal::Outgoing __og(__handler.get(), __Cannon__Processor__injectMatrix_name, ::Ice::Normal, __context, __observer);
+    ::IceInternal::Outgoing __og(__handler.get(), __Cannon__Processor__injectFirst_name, ::Ice::Normal, __context, __observer);
     try
     {
         ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
         __os->write(a);
+        __os->write(step);
+        __og.endWriteParams();
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __og.abort(__ex);
+    }
+    bool __ok = __og.invoke();
+    if(__og.hasResponse())
+    {
+        try
+        {
+            if(!__ok)
+            {
+                try
+                {
+                    __og.throwUserException();
+                }
+                catch(const ::Ice::UserException& __ex)
+                {
+                    ::Ice::UnknownUserException __uue(__FILE__, __LINE__, __ex.ice_name());
+                    throw __uue;
+                }
+            }
+            __og.readEmptyParams();
+        }
+        catch(const ::Ice::LocalException& __ex)
+        {
+            throw ::IceInternal::LocalExceptionWrapper(__ex, false);
+        }
+    }
+}
+
+void
+IceDelegateM::Cannon::Processor::injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+{
+    ::IceInternal::Outgoing __og(__handler.get(), __Cannon__Processor__injectSecond_name, ::Ice::Normal, __context, __observer);
+    try
+    {
+        ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
         __os->write(b);
         __os->write(step);
         __og.endWriteParams();
@@ -424,6 +638,48 @@ IceDelegateM::Cannon::Processor::injectMatrix(const ::Cannon::Matrix& a, const :
         {
             throw ::IceInternal::LocalExceptionWrapper(__ex, false);
         }
+    }
+}
+
+::Cannon::Matrix
+IceDelegateM::Cannon::Operations::matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+{
+    ::IceInternal::Outgoing __og(__handler.get(), __Cannon__Operations__matrixMultiply_name, ::Ice::Normal, __context, __observer);
+    try
+    {
+        ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
+        __os->write(a);
+        __os->write(b);
+        __og.endWriteParams();
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __og.abort(__ex);
+    }
+    bool __ok = __og.invoke();
+    ::Cannon::Matrix __ret;
+    try
+    {
+        if(!__ok)
+        {
+            try
+            {
+                __og.throwUserException();
+            }
+            catch(const ::Ice::UserException& __ex)
+            {
+                ::Ice::UnknownUserException __uue(__FILE__, __LINE__, __ex.ice_name());
+                throw __uue;
+            }
+        }
+        ::IceInternal::BasicStream* __is = __og.startReadParams();
+        __is->read(__ret);
+        __og.endReadParams();
+        return __ret;
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        throw ::IceInternal::LocalExceptionWrapper(__ex, false);
     }
 }
 
@@ -572,16 +828,15 @@ IceDelegateD::Cannon::Processor::init(::Ice::Int row, ::Ice::Int col, const ::Ca
 }
 
 void
-IceDelegateD::Cannon::Processor::injectMatrix(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+IceDelegateD::Cannon::Processor::injectFirst(const ::Cannon::Matrix& a, ::Ice::Int step, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
 {
     class _DirectI : public ::IceInternal::Direct
     {
     public:
 
-        _DirectI(const ::Cannon::Matrix& __p_a, const ::Cannon::Matrix& __p_b, ::Ice::Int __p_step, const ::Ice::Current& __current) : 
+        _DirectI(const ::Cannon::Matrix& __p_a, ::Ice::Int __p_step, const ::Ice::Current& __current) : 
             ::IceInternal::Direct(__current),
             _m_a(__p_a),
-            _m_b(__p_b),
             _m_step(__p_step)
         {
         }
@@ -594,22 +849,21 @@ IceDelegateD::Cannon::Processor::injectMatrix(const ::Cannon::Matrix& a, const :
             {
                 throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
             }
-            servant->injectMatrix(_m_a, _m_b, _m_step, _current);
+            servant->injectFirst(_m_a, _m_step, _current);
             return ::Ice::DispatchOK;
         }
         
     private:
         
         const ::Cannon::Matrix& _m_a;
-        const ::Cannon::Matrix& _m_b;
         ::Ice::Int _m_step;
     };
     
     ::Ice::Current __current;
-    __initCurrent(__current, __Cannon__Processor__injectMatrix_name, ::Ice::Normal, __context);
+    __initCurrent(__current, __Cannon__Processor__injectFirst_name, ::Ice::Normal, __context);
     try
     {
-        _DirectI __direct(a, b, step, __current);
+        _DirectI __direct(a, step, __current);
         try
         {
             __direct.getServant()->__collocDispatch(__direct);
@@ -637,6 +891,142 @@ IceDelegateD::Cannon::Processor::injectMatrix(const ::Cannon::Matrix& a, const :
     {
         throw ::IceInternal::LocalExceptionWrapper(::Ice::UnknownException(__FILE__, __LINE__, "unknown c++ exception"), false);
     }
+}
+
+void
+IceDelegateD::Cannon::Processor::injectSecond(const ::Cannon::Matrix& b, ::Ice::Int step, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+{
+    class _DirectI : public ::IceInternal::Direct
+    {
+    public:
+
+        _DirectI(const ::Cannon::Matrix& __p_b, ::Ice::Int __p_step, const ::Ice::Current& __current) : 
+            ::IceInternal::Direct(__current),
+            _m_b(__p_b),
+            _m_step(__p_step)
+        {
+        }
+        
+        virtual ::Ice::DispatchStatus
+        run(::Ice::Object* object)
+        {
+            ::Cannon::Processor* servant = dynamic_cast< ::Cannon::Processor*>(object);
+            if(!servant)
+            {
+                throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
+            }
+            servant->injectSecond(_m_b, _m_step, _current);
+            return ::Ice::DispatchOK;
+        }
+        
+    private:
+        
+        const ::Cannon::Matrix& _m_b;
+        ::Ice::Int _m_step;
+    };
+    
+    ::Ice::Current __current;
+    __initCurrent(__current, __Cannon__Processor__injectSecond_name, ::Ice::Normal, __context);
+    try
+    {
+        _DirectI __direct(b, step, __current);
+        try
+        {
+            __direct.getServant()->__collocDispatch(__direct);
+        }
+        catch(...)
+        {
+            __direct.destroy();
+            throw;
+        }
+        __direct.destroy();
+    }
+    catch(const ::Ice::SystemException&)
+    {
+        throw;
+    }
+    catch(const ::IceInternal::LocalExceptionWrapper&)
+    {
+        throw;
+    }
+    catch(const ::std::exception& __ex)
+    {
+        ::IceInternal::LocalExceptionWrapper::throwWrapper(__ex);
+    }
+    catch(...)
+    {
+        throw ::IceInternal::LocalExceptionWrapper(::Ice::UnknownException(__FILE__, __LINE__, "unknown c++ exception"), false);
+    }
+}
+
+::Cannon::Matrix
+IceDelegateD::Cannon::Operations::matrixMultiply(const ::Cannon::Matrix& a, const ::Cannon::Matrix& b, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+{
+    class _DirectI : public ::IceInternal::Direct
+    {
+    public:
+
+        _DirectI(::Cannon::Matrix& __result, const ::Cannon::Matrix& __p_a, const ::Cannon::Matrix& __p_b, const ::Ice::Current& __current) : 
+            ::IceInternal::Direct(__current),
+            _result(__result),
+            _m_a(__p_a),
+            _m_b(__p_b)
+        {
+        }
+        
+        virtual ::Ice::DispatchStatus
+        run(::Ice::Object* object)
+        {
+            ::Cannon::Operations* servant = dynamic_cast< ::Cannon::Operations*>(object);
+            if(!servant)
+            {
+                throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
+            }
+            _result = servant->matrixMultiply(_m_a, _m_b, _current);
+            return ::Ice::DispatchOK;
+        }
+        
+    private:
+        
+        ::Cannon::Matrix& _result;
+        const ::Cannon::Matrix& _m_a;
+        const ::Cannon::Matrix& _m_b;
+    };
+    
+    ::Ice::Current __current;
+    __initCurrent(__current, __Cannon__Operations__matrixMultiply_name, ::Ice::Normal, __context);
+    ::Cannon::Matrix __result;
+    try
+    {
+        _DirectI __direct(__result, a, b, __current);
+        try
+        {
+            __direct.getServant()->__collocDispatch(__direct);
+        }
+        catch(...)
+        {
+            __direct.destroy();
+            throw;
+        }
+        __direct.destroy();
+    }
+    catch(const ::Ice::SystemException&)
+    {
+        throw;
+    }
+    catch(const ::IceInternal::LocalExceptionWrapper&)
+    {
+        throw;
+    }
+    catch(const ::std::exception& __ex)
+    {
+        ::IceInternal::LocalExceptionWrapper::throwWrapper(__ex);
+    }
+    catch(...)
+    {
+        throw ::IceInternal::LocalExceptionWrapper(::Ice::UnknownException(__FILE__, __LINE__, "unknown c++ exception"), false);
+    }
+    return __result;
 }
 
 ::Ice::Object* Cannon::upCast(::Cannon::Collector* p) { return p; }
@@ -828,18 +1218,31 @@ Cannon::Processor::___init(::IceInternal::Incoming& __inS, const ::Ice::Current&
 }
 
 ::Ice::DispatchStatus
-Cannon::Processor::___injectMatrix(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
+Cannon::Processor::___injectFirst(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
 {
     __checkMode(::Ice::Normal, __current.mode);
     ::IceInternal::BasicStream* __is = __inS.startReadParams();
     ::Cannon::Matrix a;
-    ::Cannon::Matrix b;
     ::Ice::Int step;
     __is->read(a);
+    __is->read(step);
+    __inS.endReadParams();
+    injectFirst(a, step, __current);
+    __inS.__writeEmptyParams();
+    return ::Ice::DispatchOK;
+}
+
+::Ice::DispatchStatus
+Cannon::Processor::___injectSecond(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
+{
+    __checkMode(::Ice::Normal, __current.mode);
+    ::IceInternal::BasicStream* __is = __inS.startReadParams();
+    ::Cannon::Matrix b;
+    ::Ice::Int step;
     __is->read(b);
     __is->read(step);
     __inS.endReadParams();
-    injectMatrix(a, b, step, __current);
+    injectSecond(b, step, __current);
     __inS.__writeEmptyParams();
     return ::Ice::DispatchOK;
 }
@@ -853,7 +1256,8 @@ const ::std::string __Cannon__Processor_all[] =
     "ice_isA",
     "ice_ping",
     "init",
-    "injectMatrix"
+    "injectFirst",
+    "injectSecond"
 };
 
 }
@@ -861,7 +1265,7 @@ const ::std::string __Cannon__Processor_all[] =
 ::Ice::DispatchStatus
 Cannon::Processor::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& current)
 {
-    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__Cannon__Processor_all, __Cannon__Processor_all + 6, current.operation);
+    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__Cannon__Processor_all, __Cannon__Processor_all + 7, current.operation);
     if(r.first == r.second)
     {
         throw ::Ice::OperationNotExistException(__FILE__, __LINE__, current.id, current.facet, current.operation);
@@ -891,7 +1295,11 @@ Cannon::Processor::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current&
         }
         case 5:
         {
-            return ___injectMatrix(in, current);
+            return ___injectFirst(in, current);
+        }
+        case 6:
+        {
+            return ___injectSecond(in, current);
         }
     }
 
@@ -920,5 +1328,132 @@ Cannon::__patch(ProcessorPtr& handle, const ::Ice::ObjectPtr& v)
     if(v && !handle)
     {
         IceInternal::Ex::throwUOE(::Cannon::Processor::ice_staticId(), v);
+    }
+}
+
+::Ice::Object* Cannon::upCast(::Cannon::Operations* p) { return p; }
+
+namespace
+{
+const ::std::string __Cannon__Operations_ids[2] =
+{
+    "::Cannon::Operations",
+    "::Ice::Object"
+};
+
+}
+
+bool
+Cannon::Operations::ice_isA(const ::std::string& _s, const ::Ice::Current&) const
+{
+    return ::std::binary_search(__Cannon__Operations_ids, __Cannon__Operations_ids + 2, _s);
+}
+
+::std::vector< ::std::string>
+Cannon::Operations::ice_ids(const ::Ice::Current&) const
+{
+    return ::std::vector< ::std::string>(&__Cannon__Operations_ids[0], &__Cannon__Operations_ids[2]);
+}
+
+const ::std::string&
+Cannon::Operations::ice_id(const ::Ice::Current&) const
+{
+    return __Cannon__Operations_ids[0];
+}
+
+const ::std::string&
+Cannon::Operations::ice_staticId()
+{
+    return __Cannon__Operations_ids[0];
+}
+
+::Ice::DispatchStatus
+Cannon::Operations::___matrixMultiply(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
+{
+    __checkMode(::Ice::Normal, __current.mode);
+    ::IceInternal::BasicStream* __is = __inS.startReadParams();
+    ::Cannon::Matrix a;
+    ::Cannon::Matrix b;
+    __is->read(a);
+    __is->read(b);
+    __inS.endReadParams();
+    ::Cannon::Matrix __ret = matrixMultiply(a, b, __current);
+    ::IceInternal::BasicStream* __os = __inS.__startWriteParams(::Ice::DefaultFormat);
+    __os->write(__ret);
+    __inS.__endWriteParams(true);
+    return ::Ice::DispatchOK;
+}
+
+namespace
+{
+const ::std::string __Cannon__Operations_all[] =
+{
+    "ice_id",
+    "ice_ids",
+    "ice_isA",
+    "ice_ping",
+    "matrixMultiply"
+};
+
+}
+
+::Ice::DispatchStatus
+Cannon::Operations::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& current)
+{
+    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__Cannon__Operations_all, __Cannon__Operations_all + 5, current.operation);
+    if(r.first == r.second)
+    {
+        throw ::Ice::OperationNotExistException(__FILE__, __LINE__, current.id, current.facet, current.operation);
+    }
+
+    switch(r.first - __Cannon__Operations_all)
+    {
+        case 0:
+        {
+            return ___ice_id(in, current);
+        }
+        case 1:
+        {
+            return ___ice_ids(in, current);
+        }
+        case 2:
+        {
+            return ___ice_isA(in, current);
+        }
+        case 3:
+        {
+            return ___ice_ping(in, current);
+        }
+        case 4:
+        {
+            return ___matrixMultiply(in, current);
+        }
+    }
+
+    assert(false);
+    throw ::Ice::OperationNotExistException(__FILE__, __LINE__, current.id, current.facet, current.operation);
+}
+
+void
+Cannon::Operations::__writeImpl(::IceInternal::BasicStream* __os) const
+{
+    __os->startWriteSlice(ice_staticId(), -1, true);
+    __os->endWriteSlice();
+}
+
+void
+Cannon::Operations::__readImpl(::IceInternal::BasicStream* __is)
+{
+    __is->startReadSlice();
+    __is->endReadSlice();
+}
+
+void 
+Cannon::__patch(OperationsPtr& handle, const ::Ice::ObjectPtr& v)
+{
+    handle = ::Cannon::OperationsPtr::dynamicCast(v);
+    if(v && !handle)
+    {
+        IceInternal::Ex::throwUOE(::Cannon::Operations::ice_staticId(), v);
     }
 }

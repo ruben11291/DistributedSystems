@@ -21,11 +21,10 @@ int main(int argc, char**argv){
 	  if(i%a == 0 and i != 0) fa << endl;	
 	  fa << i<<" " ;
  	}
-
-	for ( int j = b*b -1 ; j>= 0; j--){
-	  if(j%b == 0 and j !=0 ) fb << endl;	
-	  fb << j <<" ";		
-   	}
+	for ( int i = 0; i < b*b; i++){
+	  if(i%b == 0 and i != 0) fb << endl;	
+	  fb << i<<" " ;
+ 	}
 	fa << endl;
 	fb <<endl;
 	

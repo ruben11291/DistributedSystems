@@ -13,7 +13,12 @@ module Cannon{
 	
 	interface Processor{
 		void init(int row, int col, Processor * up, Processor * left, int order, Collector *target);
-		void injectMatrix(Matrix a, Matrix b, int step);
+		void injectFirst(Matrix a, int step);
+		void injectSecond(Matrix b, int step);
+	};
+
+	interface Operations{
+		Matrix matrixMultiply(Matrix a, Matrix b);
 	};
 
 };

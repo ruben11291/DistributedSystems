@@ -2,6 +2,8 @@
 #include <CannonI.h>
 #include <iostream>
 #include <cmath>
+#include <IceUtil/Monitor.h>
+#include <IceUtil/Mutex.h>
 
 void
 Cannon::CollectorI::injectSubmatrix(::Ice::Int row,
@@ -10,25 +12,35 @@ Cannon::CollectorI::injectSubmatrix(::Ice::Int row,
                                     const ::Cannon::Matrix& m,
                                     const Ice::Current& current)
 {
-  if(count == 0 ){
-    result = std::vector < ::Cannon::Matrix> (order * order);
+  if(count == 0){
+    result = std::vector < ::Cannon::Matrix>();
   }
-  
-  result[col + row*order] = m;
-  count++;
-  if( count == result.size()){
+  //sigue siendo flag
+  cout << "INJECTEDDDD " <<endl;
+  cout << m.data[0] <<endl;
+  cout.flush();
+  result.push_back(m);         
+  count = 1;
+  cout << "COUNT "<<count << endl;
+  if( result.size() == order*order){
     for(int i =0 ; i < result.size(); i += order){
       for(int l=0; l < m.ncols; l++){
-  	for(int j=i; j < i + order ; j++){
-  	  for( int k = 0; k < m.ncols; k++){
-  	    std::cout << result[j].data[k + l*m.ncols] << " ";    
-	  }
-	  std::cout << " ";
-	}
-	std::cout << std::endl;
+    	for(int j=i; j < i + order ; j++){
+    	  for( int k = 0; k < m.ncols; k++){
+    	    std::cout << result[j].data[k + l*m.ncols] << " ";    
+    	  }
+    	  std::cout << " ";
+    	}
+    	std::cout << std::endl;
       }
       std::cout << std::endl;
     }
+    // cout << endl<<"RESULT"<<endl;
+    // for(int i = 0;i<result.size();i++){
+    //   cout << result[i].data[0]<<" ";
+    // }
+    cout.flush();
+    count = 0;
   }
 }
 
@@ -47,33 +59,92 @@ Cannon::ProcessorI::init(::Ice::Int row,
   this->left = left;
   this->up = up;
   this->collector = target;
+  countA = countB = 0;
+  bufferA =  std::vector < ::Cannon::Matrix> (order);
+  bufferB = std::vector <  ::Cannon::Matrix> (order);
+  for(int i = 0;i<order;i++){
+    bufferA[i] = Cannon::Matrix();
+    bufferB[i] = Cannon::Matrix();
+  }
   
 }
 
 void
-Cannon::ProcessorI::injectMatrix(const ::Cannon::Matrix& a,
-                                 const ::Cannon::Matrix& b,
+Cannon::ProcessorI::injectFirst(const ::Cannon::Matrix& a,
+                                ::Ice::Int step,
+                                const Ice::Current& current)
+{
+  
+ cout << "A " << " Step "<<step<<endl;
+  
+  if(step<order){
+    countA +=1;
+    cout<<"A Matrix"<<endl;  
+    bufferA[step] = a;
+    Ice::AsyncResultPtr r = left->begin_injectFirst(a,step+1);
+    
+    if(countA == order and countB == order){
+      cout << "MULT"<<endl;
+      tmp.ncols = a.ncols;
+      tmp.data = Cannon::DoubleSeq(tmp.ncols*tmp.ncols);
+      for(auto i:tmp.data)
+	i = 0;
+      for(int i = 0; i < order; i++){
+	
+	Cannon::Matrix t = Modify::multiply(bufferA[i],bufferB[i]);
+	Cannon::Matrix aux = Modify::sum(tmp,t);
+	tmp = aux;	
+      }
+     
+      if(step == order-1){
+  	cout <<"injected Collector"<<endl;
+  	 collector->injectSubmatrix(this->row,this->col,order,tmp);
+      }
+    }
+    cout <<"assigned A"<<endl;
+  }
+
+}
+
+void
+Cannon::ProcessorI::injectSecond(const ::Cannon::Matrix& b,
                                  ::Ice::Int step,
                                  const Ice::Current& current)
 {
   
-  if(!step){
-    tmp.ncols = a.ncols;
-    tmp.data = Cannon::DoubleSeq(tmp.ncols * tmp.ncols);
-    for(auto i:tmp.data)
-      i = 0;
-  }
-  if(step < order){
- 
-    Cannon::Matrix mult = ::Modify::multiply(a,b);
-    tmp = ::Modify::sum(tmp , mult); 
+  if( step < order){
+    countB +=1;
+    cout<<"B Matrix"<<endl;  
+    bufferB[step] = b;
+    Ice::AsyncResultPtr r = up->begin_injectSecond(b,step+1);
     
-  if(step == order-1) collector->injectSubmatrix(this->row,this->col, order, tmp);//send to collector
-  
+    if(countA == order and countB == order){
+      cout << "MULT"<<endl;
+      tmp.ncols = b.ncols;
+      tmp.data = Cannon::DoubleSeq(tmp.ncols*tmp.ncols);
+      for(auto i:tmp.data)
+	i = 0;
+      for(int i = 0; i < order; i++){
+	Cannon::Matrix t = Modify::multiply(bufferA[i],bufferB[i]);
+	Cannon::Matrix aux = Modify::sum(tmp,t);
+	tmp = aux;	
+      }
+      
+      if(step == order-1){
+  	cout <<"injected Collector"<<endl;
+  	 collector->injectSubmatrix(this->row,this->col,order,tmp);
+      }
+    }
+    cout <<"assigned B"<<endl;
   }
- 
-  
 }
 
+::Cannon::Matrix
+Cannon::OperationsI::matrixMultiply(const ::Cannon::Matrix& a,
+                                    const ::Cannon::Matrix& b,
+                                    const Ice::Current& current)
+{
+    return ::Cannon::Matrix();
+}
 
 
