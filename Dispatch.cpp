@@ -37,24 +37,13 @@ void Dispatch::distr(const std::vector< ::Cannon::Matrix> & mA, const std::vecto
  
  assert(nproc == mA.size());
 
- // if(time < (int)sqrt(nproc)){
- //std::vector< ::Cannon::Matrix> mtA,mtB;
+
    for( int i= 0; i < nproc; i++){
      Cannon::Matrix tmpA(mA[i]),tmpB(mB[i]);
      processor[i]->begin_injectFirst(tmpA,time);
      processor[i]->begin_injectSecond(tmpB,time);
      
-     //  mtA.push_back(mA[getLeft(i)]);
-     //mtB.push_back(mB[getNorth(i)]);
    }
-   // this->distr(mtA, mtB, time+1);
-   //}
-
-
- // for( int i= 0; i < nproc; i++){
- //    Cannon::Matrix tmpA(mA[i]),tmpB(mB[i]);
- //    processor[i]->injectMatrix(tmpA,tmpB,0);
- //  } 
 }
 
 int Dispatch::getNproc(){

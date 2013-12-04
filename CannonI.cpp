@@ -1,6 +1,7 @@
 
 #include <CannonI.h>
 #include <iostream>
+#include <fstream>
 #include <cmath>
 #include <IceUtil/Monitor.h>
 #include <IceUtil/Mutex.h>
@@ -19,20 +20,23 @@ Cannon::CollectorI::injectSubmatrix(::Ice::Int row,
   result[col + row*order ] = m;
   count += 1;
   if( count == order*order){
+    ofstream out("../../../../cannon_result.m");
     cout<<" RESULT "<<endl;
     for(int i =0 ; i < result.size(); i += order){
       for(int l=0; l < m.ncols; l++){
     	for(int j=i; j < i + order ; j++){
     	  for( int k = 0; k < m.ncols; k++){
-    	    std::cout << result[j].data[k + l*m.ncols] << " ";    
+    	    out << result[j].data[k + l*m.ncols] << " ";
+	    
     	  }
-    	  std::cout << " ";
+    	  out << " ";
     	}
-    	std::cout << std::endl;
+    	out << std::endl;
       }
-      std::cout << std::endl;
+      out << std::endl;
     }
     count = 0;
+    out.close();
   }
 }
 

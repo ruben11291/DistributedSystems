@@ -56,12 +56,16 @@ class MatrixClient: public Ice::Application{
     
     Cannon::Matrix R=  Modify::multiply(A,B);
     cout << "RESULT MATRIZ"<<endl;
-
+    ofstream out("normalresult.m");
     for(int i=0;i<R.ncols;i++){
-      for(int j=0;j<R.ncols;j++)
+      for(int j=0;j<R.ncols;j++){
+	out << R.data[j+ i*R.ncols] << " ";
 	cout<<R.data[j+ i*R.ncols]<< " ";
+      }
+      out << endl;
       cout << endl;
     }
+    out.close();
     vector < Cannon::Matrix> vA = Modify::split(A,ord);
     std::vector< Cannon::Matrix> vB = Modify::split(B,ord);
     
