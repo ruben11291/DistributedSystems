@@ -118,6 +118,7 @@
          <server-instance template="ProcessorTemplate" id="1"/>
          <server-instance template="ProcessorTemplate" id="2"/>
          <server-instance template="ProcessorTemplate" id="3"/>
+         <server-instance template="ProcessorTemplate" id="4"/>
       </node>
    </application>
 </icegrid>

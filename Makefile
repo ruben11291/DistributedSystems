@@ -19,7 +19,7 @@ clean:
 	$(RM) -rf  bin/* *~ *.o
 
 ejecuteClient:
-	./MatrixClient resources/matrizA.m resources/matrizB.m resources/nproc.m --Ice.Config=config/locator.cfg
+	./bin/MatrixClient resources/matrizA.m resources/matrizB.m resources/nproc.m --Ice.Config=config/locator.cfg
 
 deploy:
 	icepatch2calc bin/.
