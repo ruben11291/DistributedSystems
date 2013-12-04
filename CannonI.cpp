@@ -27,7 +27,6 @@ Cannon::CollectorI::injectSubmatrix(::Ice::Int row,
     	for(int j=i; j < i + order ; j++){
     	  for( int k = 0; k < m.ncols; k++){
     	    out << result[j].data[k + l*m.ncols] << " ";
-	    
     	  }
     	  out << " ";
     	}
