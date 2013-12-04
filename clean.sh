@@ -1,5 +1,4 @@
 #!/bin/bash
 
-. common.sh
-
-clean "$@"
+echo "Cleaning..."
+rm -rf *~ data

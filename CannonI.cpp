@@ -15,12 +15,9 @@ Cannon::CollectorI::injectSubmatrix(::Ice::Int row,
   if(count == 0){
     result = std::vector < ::Cannon::Matrix>( order * order);
   }
-  //sigue siendo flag
-  cout << "INJECTEDDDD " <<endl;
-  // result.push_back(m);  
+  cout << "Matrix injected" <<endl;
   result[col + row*order ] = m;
   count += 1;
-  cout << "COUNT "<<count << endl;
   if( count == order*order){
     cout<<" RESULT "<<endl;
     for(int i =0 ; i < result.size(); i += order){
@@ -35,11 +32,6 @@ Cannon::CollectorI::injectSubmatrix(::Ice::Int row,
       }
       std::cout << std::endl;
     }
-    // cout << endl<<"RESULT"<<endl;
-    // for(int i = 0;i<result.size();i++){
-    //   cout << result[i].data[0]<<" ";
-    // }
-    cout.flush();
     count = 0;
   }
 }
@@ -61,12 +53,7 @@ Cannon::ProcessorI::init(::Ice::Int row,
   this->collector = target;
   countA = countB = 0;
   bufferA =  std::vector < ::Cannon::Matrix> (order);
-  bufferB = std::vector <  ::Cannon::Matrix> (order);
-  for(int i = 0;i<order;i++){
-    bufferA[i] = Cannon::Matrix();
-    bufferB[i] = Cannon::Matrix();
-  }
-  
+  bufferB = std::vector <  ::Cannon::Matrix> (order); 
 }
 
 void
@@ -79,25 +66,24 @@ Cannon::ProcessorI::injectFirst(const ::Cannon::Matrix& a,
   if(step<order){
     countA +=1;
     bufferA[step] = a;   
-    cout << "COUNTA "<<countA << "COUNT B "<<countB<<endl;
 
     try{
-    Ice::AsyncResultPtr r = left->begin_injectFirst(a,step+1);
+      Ice::AsyncResultPtr r = left->begin_injectFirst(a,step+1);
     }catch(int e){
       cout << "EXCEPTION "<<endl;
     }
+
     if(countA == order and countB == order){
       tmp.ncols = a.ncols;
       tmp.data = Cannon::DoubleSeq(tmp.ncols*tmp.ncols);
       for(auto& i:tmp.data)
 	i = 0.0;
+
       for(int i = 0; i < order; i++){
-	
 	Cannon::Matrix t = Modify::multiply(bufferA[i],bufferB[i]);
 	Cannon::Matrix aux = Modify::sum(tmp,t);
 	tmp = aux;	
       }
-     
      
       cout <<"injected to Collector"<<endl;
       collector->injectSubmatrix(this->row,this->col,order,tmp);
@@ -116,11 +102,13 @@ Cannon::ProcessorI::injectSecond(const ::Cannon::Matrix& b,
   if( step < order){
     countB +=1;
     bufferB[step] = b;
+
     try{
       Ice::AsyncResultPtr r = up->begin_injectSecond(b,step+1);
     }catch(int e){
       cout<<"EXCEPTION "<<endl;
     }
+
     if(countA == order and countB == order){
       tmp.ncols = b.ncols;
       tmp.data = Cannon::DoubleSeq(tmp.ncols*tmp.ncols);
@@ -133,10 +121,8 @@ Cannon::ProcessorI::injectSecond(const ::Cannon::Matrix& b,
       }
       
       cout <<"injected to Collector"<<endl;
-      collector->injectSubmatrix(this->row,this->col,order,tmp);
-      
+      collector->injectSubmatrix(this->row,this->col,order,tmp); 
     }
-   
   }
 }
 
