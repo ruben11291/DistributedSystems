@@ -1,0 +1,86 @@
+\documentclass[a4paper,spanish,11pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{lmodern}
+\usepackage{multicol}
+\usepackage{listing}
+%\usepackage{url}
+\usepackage[T1]{fontenc}
+\usepackage[bookmarks,hyperfootnotes=false,colorlinks=true,urlcolor=black,linkcolor=black,citecolor=black,pagecolor=black,anchorcolor=black,breaklinks=true]{hyperref}% Hiperenlaces
+
+\usepackage{graphicx}
+\usepackage{fixme}
+\graphicspath{{figures/}}
+
+ \lstset{language=c++,breaklines=true, basicstyle=\footnotesize}
+
+% Párrafos
+\setlength{\parskip}{8pt}
+
+\begin{document}
+
+\renewcommand*{\thepage}{\roman{page}}
+
+\begin{titlepage}
+  \begin{center}
+    \includegraphics[width=.4\textwidth]{logos/emblema_informatica-gray.pdf} \\
+    \vspace*{0,5cm} {\Large \textsc{Universidad de Castilla-la Mancha\\}}
+    \vspace{3mm}
+    {\Large \textbf{Escuela Superior de Informática}}  \\
+    \vspace{1,7cm}
+    {\huge \textbf{Arquitectura de Sistemas Distribuidos}} \\
+    \vspace{1,7cm}
+    \Large{Estudio sobre el sistema de archivos distribuido de Map-Reduce aplicado a ZeroC-Ice}
+    
+    \vspace{0.1cm}
+    
+  \end{center}
+  \vspace{4cm}
+  \begin{table}[!h]
+    \Large
+    \begin{tabular}{rl}
+      \textbf{Autor}: & Rubén Pérez Pascual \\
+      
+    \end{tabular}
+  \end{table}
+  % \vspace{1,5cm} \\
+  % \begin{flushright}
+  %   {\large \today}
+  % \end{flushright}
+\end{titlepage}
+
+
+
+
+\newpage
+\thispagestyle{empty}
+\tableofcontents
+\newpage
+
+\pagestyle{fancy}
+% \fancyhead[L]{Anteproyecto}     
+\fancyhead[R]{Rubén Pérez Pascual}
+\fancyfoot[C]{\thepage}
+\renewcommand{\sectionmark}[1]{\markboth{\textbf{\thesection. #1}}{}}
+\renewcommand*{\thepage}{\arabic{page}}
+ \setcounter{page}{1}
+
+
+
+\part{Arquitectura de la práctica}
+\label{arquitectura}
+\input{informe.tex}
+
+\clearpage
+\appendix % Apéndices
+\part{Despliegue}
+\label{deploy}
+\input{deploy.tex}
+
+
+ 
+\end{document}
+

@@ -23,3 +23,4 @@ ejecuteClient:
 
 deploy:
 	icepatch2calc bin/.
+
