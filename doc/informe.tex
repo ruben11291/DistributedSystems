@@ -10,14 +10,26 @@ La definición de interfaces de la práctica se muestra a continuación:
 
 
 \section{Arquitectura}
+En esta sección se explicará el slice en relación con la arquitectura de esta práctica.
+Este sistema distribuido se compone de un Cliente, el cual solicita los servicios de los distintos procesadores desplegados.
+En total, existen 25 procesadores distintos, los cuales se comunican entre ellos para realizar el algorítmo de multiplicación de matrices al cual Cannon bautizó.\\
+ Existe también un proceso Colector el cual recoge todos los resultados parciales de cada procesador, los unifica y saca el resultado por salida estándar y en un fichero denominado ``cannon\_result.m''. La ejecución del cliente también dará como resultado un fichero denominado ``normal\_result.m'' para comparar esta salida, con la salida resultante de la ejecución del algorítmo distribuido.
+
+Cada uno de los procesadores implementa la interfaz \emph{ Processor}. Con lo que el cliente cada vez que se ejecuta, carga las matrices operando, realiza las distintas operaciones para subdividirlas, como los desplazamientos horizontales y verticales, y les envía a cada procesador su submatriz correspondiente. Una vez realizado esto el cliente acabará su ejecución. \\
+Cuando a cada procesador le llega un dato operando, este lo almacena en un buffer para su posterior cálculo. Este cálculo se realizará cuando se disponga de todos los operandos, entonces el resultado se le enviará al \emph{Collector}. Cada uno de los procesadores obtiene sus operandos y los envía a sus correspondientes vecinos.\\ 
+La forma de abordar esta práctica no es la más eficiente por supuesto, pero se ha tomado la decisión de ir guardando en un buffer temporal todos los operandos origen, para cuando estén todos, realizar las operaciones oportunas. Una posible mejora para esta implementación podría ser la de almacenar los operandos recibidos pero cuando halla un número suficiente como para realizar un cálculo intermedio, realizarlo, liberar esa memoria y almacenar el resultado en una variable temporal. Esto realizaría un gestión más eficiente de la memoria. 
+\\
+El proceso \emph{Collector} implementa la interfaz con el mismo nombre. Esta función, \emph{injectSubmatrix}, solamente recibe una submatrix resultado por cada procesador, y cuando obtiene todas, escribe su resultado en salida estándar y en el fichero anteriormente comentado.
+\\
+La interfaz Operations no se ha usado para implementar, pero la idea básica del uso de esta interfaz era el que el cliente realizara una invocación asíncrona un proceso intermediario, para que este avisara los procesadores y el cliente no acabara su ejecución hasta obtener un resultado. Se ha tomado la decisión de realizar el cliente simplemente invocando a los procesadores el mismo, con lo que acaba su ejecución tras ello y es el collector el que obtiene y procesa el resultado.
 
 
 
+\section{Obtención de los \emph{proxies} por parte de los procesos}
 
+El objeto \emph {Collector} se ha definido como \emph{``Well Known''} ya que debe de conocerse por todos los procesadores.
+Cada uno de los \emph{proxies} de los procesadores por parte del cliente, se obtiene mediante una \emph{Ice::Query}. En la definición de los objetos de cada uno de los procesadores, se ha definido el tipo del objeto como \emph{::Cannon::Processor} por lo que mediante la consulta antes dicha a los objetos de este tipo, obtenemos cada uno de los \emph {proxies} de los procesadores.
 
-
-
-\section{Definición de \emph{``Well Known Objects''}}
 
 
 

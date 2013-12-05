@@ -5,6 +5,7 @@
 \usepackage{listings}
 \usepackage{fancyhdr}
 \usepackage{lmodern}
+\usepackage{color}
 \usepackage{multicol}
 \usepackage{listing}
 %\usepackage{url}
@@ -14,8 +15,8 @@
 \usepackage{graphicx}
 \usepackage{fixme}
 \graphicspath{{figures/}}
-
- \lstset{language=c++,breaklines=true, basicstyle=\footnotesize}
+ \definecolor{mygray}{rgb}{1,1,0.8}
+\lstset{language=c++,breaklines=true, basicstyle=\footnotesize,backgroundcolor=\color{mygray}}
 
 % Párrafos
 \setlength{\parskip}{8pt}

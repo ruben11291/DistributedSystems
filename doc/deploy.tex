@@ -1,0 +1,52 @@
+
+
+\section{Distribución}
+
+En el directorio de la práctica se pueden ver diversos ficheros y directorios los cuales se explican de esta forma:
+
+\begin{itemize}
+\item *.cpp y *.h: Ficheros fuente de la aplicación.
+\item bin: Se almacenan los binarios de la aplicación.
+\item doc: Esta documentación.
+\item resources: Se almacenan los datos fuente como las matrices origen y el número de procesadores.
+\item config : Contiene los distintos ficheros de configuración para los nodos.
+\item *.sh : Diferentes scripts para desplegar, ejecutar y parar la aplicación distribuida.
+\item CannonApp.xml : Aplicación distribuida.
+\end{itemize}
+
+\section{Despliegue}
+
+Para realizar el despliegue de la aplicación se han definido los siguientes nodos:
+\begin{itemize}
+
+\item Nodo1 : contiene el \emph{IceGrid Registry} además de un servidor \emph{IcePatch}. También se le incluyen siete procesos \emph{MatrixProcessor} y el \emph{MatrixCollector}.
+\item Nodo2 : contiene nueve \emph{MatrixProcessor}.
+\item Nodo3 : contiene nueve \emph{MatrixProcessor}.
+\end{itemize}
+
+
+
+\section{Compilado y Ejecución} 
+
+Para compilar simplemente basta realizar en el directorio de la práctica ``make''.
+Por supuesto hay que tener instalado los siguientes paquetes:
+\begin{itemize}
+\item ZeroC Ice 3.4 ó superior.
+\item GNU Make
+\item GNU Compiler Collection
+\end{itemize}
+
+Esto generará en la carpeta bin los siguientes binarios:
+\begin{itemize}
+\item \textbf{MatrixClient:} cliente de la aplicación.
+\item \textbf{MatrixCollector:} ejecutable del proceso \emph{Collector}.
+\item \textbf{MatrixProcessor:} ejecutable del proceso \emph{Processor}.
+\item \textbf{generate:} programa de generación de matrices. Se ejecuta desde el directorio principal de la práctica y toma dos argumentos. Estos son dos números enteros indicando el orden de las dos matrices resultantes, que se situarán en la carpeta resources con los nombres de ``matrizA.m'' y ``matrizB.m''. Su ejecución sería: ``./bin/generate <num> <num>''.
+\end{itemize}
+
+Para ejecutar la aplicación , que se debe de realizar desde el directorio principal de la práctica, simplemente lanzamos los scripts.
+Realizando ``start.sh'' se despliega y empiezan a ejecutar los distintos nodos y servicios. \\
+Tras esto podemos realizar la ejecución por parte del cliente, la cual se ha facilitado creando una regla en el Makefile. Por lo tanto su ejecución sería `` make ejecuteClient''. Una vez realizada la ejecución obtendremos en el mismo directorio los ficheros ``cannon\_result.m'' y ``normal\_result.m''. \\
+Para parar la ejecución del sistema distribuido simplemente habría que ejecutar el script ``stop.sh''. \\
+Se incluye también un script ``clean.sh'' para limpiar todos los ficheros de log, y las bases de datos usadas por los nodos, por lo que antes de cada ejecución es recomendable su ejecución.
+ 
