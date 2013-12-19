@@ -105,7 +105,7 @@
          </server>
       </server-template>
       <node name="Nodo1">
-         <server-instance template="IcePatch2" directory="/home/ruben/git/distribuidos/bin"/>
+         <server-instance template="IcePatch2" directory="/tmp/distribuidos/bin"/>
          <server id="MatrixCollector" activation="on-demand" exe="./MatrixCollector" pwd="${application.distrib}">
             <properties>
                <property name="Ice.StdOut" value="/tmp/collector.txt"/>

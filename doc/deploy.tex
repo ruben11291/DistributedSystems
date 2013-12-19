@@ -26,7 +26,7 @@ Para realizar el despliegue de la aplicación se han definido los siguientes nod
 
 
 
-\section{Compilado y Ejecución} 
+\section{Compilado y Ejecución}
 
 Para compilar simplemente basta realizar en el directorio de la práctica ``make''.
 Por supuesto hay que tener instalado los siguientes paquetes:
@@ -44,9 +44,14 @@ Esto generará en la carpeta bin los siguientes binarios:
 \item \textbf{generate:} programa de generación de matrices. Se ejecuta desde el directorio principal de la práctica y toma dos argumentos. Estos son dos números enteros indicando el orden de las dos matrices resultantes, que se situarán en la carpeta resources con los nombres de ``matrizA.m'' y ``matrizB.m''. Su ejecución sería: ``./bin/generate <num> <num>''.
 \end{itemize}
 
+\paragraph{A tener en cuenta.}
+
+
+Antes de todo, el directorio de esta práctica se debe de copiar en el directorio /tmp del sistema. Esto es debido a que el despliegue anterior se realiza mediante \emph{IcePatch} y este conoce el directorio de los binarios, el cual es /tmp/distribuidos/bin.
+
+\paragraph{}
 Para ejecutar la aplicación , que se debe de realizar desde el directorio principal de la práctica, simplemente lanzamos los scripts.
 Realizando ``start.sh'' se despliega y empiezan a ejecutar los distintos nodos y servicios. \\
 Tras esto podemos realizar la ejecución por parte del cliente, la cual se ha facilitado creando una regla en el Makefile. Por lo tanto su ejecución sería `` make ejecuteClient''. Una vez realizada la ejecución obtendremos en el mismo directorio los ficheros ``cannon\_result.m'' y ``normal\_result.m''. \\
 Para parar la ejecución del sistema distribuido simplemente habría que ejecutar el script ``stop.sh''. \\
 Se incluye también un script ``clean.sh'' para limpiar todos los ficheros de log, y las bases de datos usadas por los nodos, por lo que antes de cada ejecución es recomendable su ejecución.
- 
